@@ -561,6 +561,8 @@ cmd /c mklink /d C:\shadowcopy "$link"
 
 
 ## Exploitation
+Extracts and decrypts saved session information for software typically used to access Unix systems. [Invoke-SessionGopher.ps1](https://github.com/samratashok/nishang/blob/master/Gather/Invoke-SessionGopher.ps1)
+
 
 #### WMI Attacks – C2 Communication (WMI Class) – “Push” Attack
 **First Step** - Push file contents to remote WMI repository

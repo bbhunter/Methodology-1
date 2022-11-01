@@ -3,6 +3,9 @@
 - [Internal Network Penetration Testing](#internal-network-penetration-testing)
   - [Recon](#recon)
   - [Unauthenticated enumeration](#unauthenticated-enumeration)
+  - [Unauthenticated User enumeration](#unauthenticated-user-enumeration)
+      - [User enumeration via Kerberos](#user-enumeration-via-kerberos)
+      - [User enumeration without kerberos](#user-enumeration-without-kerberos)
   - [First foothold](#first-foothold)
     - [NAC Bypass (802.1x)](#nac-bypass-8021x)
       - [802.1x EAP-TLS](#8021x-eap-tls)
@@ -138,7 +141,10 @@
   - [Reporting / Collaborative](#reporting--collaborative)
     - [Password audit reporting](#password-audit-reporting)
   - [Defenses](#defenses)
+    - [Restricted Admin Mode](#restricted-admin-mode)
     - [Windows Defender Antivirus](#windows-defender-antivirus)
+    - [AppLocker](#applocker)
+    - [Windows Defender Application Control (WDAC)](#windows-defender-application-control-wdac)
     - [Windows Defender Advanced Threat Protection (ATP)](#windows-defender-advanced-threat-protection-atp)
     - [Windows Defender : Exploit Guard](#windows-defender--exploit-guard)
     - [Windows Defender : Application Guard](#windows-defender--application-guard)
@@ -188,6 +194,18 @@ Copy **dsquery.dll** from *C:\Windows\System32*
 ```
 rundll32 dsquery.dll,OpenqueryWindow
 ```
+
+## Unauthenticated User enumeration
+#### User enumeration via Kerberos
+--> Require list of possible usernames:  
+  - Non-existent account : ```KDC_ERR_C_PRINCIPAL_UNKNOWN```
+  - A locked or disabled account : ```KDC_ERR_CLIENT_REVOKED```
+  - A valid account : ```KDC_ERR_PREAUTH_REQUIRED```
+
+#### User enumeration without kerberos
+Use the **DsrGetDcNameEx2**,**CLDAP** ping and **NetBIOS MailSlot** ping methods respectively to establish if any of the usernames in a provided text file exist on a remote domain controller.  
+- https://github.com/sensepost/UserEnum
+- https://sensepost.com/blog/2018/a-new-look-at-null-sessions-and-user-enumeration/
 
 ## First foothold
 
@@ -1336,7 +1354,31 @@ dpat.py -n ntds.dit -c hashcat.potfile -g "Domain Admins.txt" "Enterprise Admins
 
 
 ## Defenses
+
+### Restricted Admin Mode
+- https://social.technet.microsoft.com/wiki/contents/articles/32905.remote-desktop-services-enable-restricted-admin-mode.aspx
+- https://labs.withsecure.com/publications/undisable
+- 
+
 ### Windows Defender Antivirus
+
+### AppLocker
+**Rules**: Are defined and control execution of the followings items:
+- Applications
+- Scripts
+- Packaged Applications
+- Installers
+- DLL
+
+**Conditions**: Are based on the followings filters:
+- Publisher (Ex: Software signed by valid vendor)
+- Path
+- File hash
+
+--> Finally : **Allow** and **Deny** actions can be assigned to specific user/group.
+
+### Windows Defender Application Control (WDAC)
+- https://learn.microsoft.com/en-us/windows/security/threat-protection/windows-defender-application-control/wdac-and-applocker-overview
 
 ### Windows Defender Advanced Threat Protection (ATP)
 
