@@ -17,6 +17,8 @@ https://github.com/smicallef/spiderfoot
 - Social networks (linkedIn, hunter.io, clearbit, phonebook.cz, Facebook, Company twitter/instagram)
 - DNS history
 - ASN
+https://bgp.he.net/dns/aecon.com#_ipinfo
+
 - Wayback machine, google cache
 
 ### Active External Network Reconnaissance
@@ -92,6 +94,8 @@ Git / Repo secret parsers
     shhgit (https://github.com/eth0izzle/shhgit)
     gitrob (https://github.com/michenriksen/gitrob)
 
+### SAP
+- https://book.hacktricks.xyz/network-services-pentesting/pentesting-sap
   
 ### Lync
 - https://www.mdsec.co.uk/2017/04/penetration-testing-skype-for-business-exploiting-the-missing-lync/
