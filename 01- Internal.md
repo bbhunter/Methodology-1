@@ -1363,6 +1363,8 @@ dpat.py -n ntds.dit -c hashcat.potfile -g "Domain Admins.txt" "Enterprise Admins
 ### Windows Defender Antivirus
 
 ### AppLocker
+- https://medium.com/@threathuntingteam/msxsl-exe-and-wmic-exe-a-way-to-proxy-code-execution-8d524f642b75
+
 **Rules**: Are defined and control execution of the followings items:
 - Applications
 - Scripts

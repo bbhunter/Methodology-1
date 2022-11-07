@@ -31,7 +31,7 @@ https://bgp.he.net/dns/aecon.com#_ipinfo
 - Aquatone, Eyewitness, Shutter
 - DNS zone transfer
 - subdomain takeover
-
+  
 ### User account enumeration
 On web app portal
 
@@ -47,6 +47,8 @@ On web app portal
 ### SMTP
 
 ### DKIM / DMARC / SPF misconfiguration
+https://github.com/BishopFox/spoofcheck.git
+https://github.com/Mr-Un1k0d3r/SPFAbuse
 
 ### SNMP
 - snmpget
@@ -140,6 +142,7 @@ The following plugins are currently supported:
 - https://github.com/lutzenfried/checkpointSpray
 
 #### O365
+- https://github.com/SecurityRiskAdvisors/msspray
 - https://github.com/blacklanternsecurity/TREVORspray
 
 ```
@@ -175,3 +178,6 @@ Mailsniper
 - heartbleed
 - Shellshock
 
+
+
+https://www.foregenix.com/blog/know-your-attack-surfaces

