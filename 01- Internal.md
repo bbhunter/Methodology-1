@@ -119,6 +119,7 @@
     - [Active Directory NTDS : Clear Text passwords (Reversible encryption)](#active-directory-ntds--clear-text-passwords-reversible-encryption)
     - [Accessing LSASS secrets](#accessing-lsass-secrets)
         - [Lsassy](#lsassy)
+    - [Bring Your Own Domain Controller](#bring-your-own-domain-controller)
   - [Misc : AD Audit](#misc--ad-audit)
       - [WDigest](#wdigest)
       - [Passwords stored in LSA (LSA Storage)](#passwords-stored-in-lsa-lsa-storage)
@@ -1127,6 +1128,8 @@ lsassy -d company.local -u jdoe -p Pass1234 192.168.1.0/24
 ```
 
 
+### Bring Your Own Domain Controller
+- https://blog.zsec.uk/byodc-attack/
 
 
 

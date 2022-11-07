@@ -369,10 +369,47 @@ wmic DATAFILE where "drive='C:' AND Name like '%password%'" GET Name,readable,si
 ```
 
 ## WMI Active Directory Recon
+WMI can be used to get domain object information and realize Active Directory recon and enumeration.  
 
 Listing Domain Users
 ```
 Get-WMIObject -Class Win32_UserAccount -Filter "DOMAIN = 'corp.local'"
+```
+
+List classes in the LDAP namespace
+```
+Get-WmiObject -Namespace root/directory/ldap -List
+```
+
+Get Current Domain
+```
+Get-WmiObject -Namespace root/directory/ldap -Class ds_domain | select -ExpandProperty ds_dc
+(Get-WmiObject -Class Win32_ComputerSystem).Domain
+```
+
+Get domain policy
+```
+Get-WmiObject -Namespace root/directory/ldap -Class ds_domain | select DS_lockoutDuration, DS_lockoutObservation, DS_lockoutThreshold, DS_maxPwdAge, DS_minPwdAge, DS_minPwdLength, DS_pwdHistoryLength, DS_pwdProperties
+```
+
+Retrieve all member computers and filter only for the Domain Controller
+```
+Get-WmiObject -Namespace root/directory/ldap -Class ds_computer | Where-Object {$_.ds_userAccountControl -eq 532480} | select ds_cn
+```
+
+Get all domain users
+```
+Get-WmiObject -Class win32_useraccount
+```
+
+Get names of all domain users
+```
+Get-WmiObject -Class win32_useraccount | select name
+```
+
+Get all domain users of another domain with trust relationship
+```
+Get-WmiObject -Class win32_useraccount -Filter "Domain = 'childone'"
 ```
 
 ## WMI Methods
@@ -531,6 +568,8 @@ Listing user account present on a system and on the domain with SID.
 **Warning**: Because both the Name and Domain are key properties, enumerating Win32_UserAccount on a large network can negatively affect performance.  
 ```
 Get-WmiObject -Class Win32_UserAccount
+
+l
 ```
 
 To only list local user account using Win32_UserAccount and avoid reaching domain controller you can try the following script.  
@@ -588,7 +627,6 @@ Create a symlink for the created shadow copy
 $link = (Get-WmiObject -Class Win32_ShadowCopy).DeviceObject + "\"
 cmd /c mklink /d C:\shadowcopy "$link"
 ```
-
 
 ## Exploitation
 Extracts and decrypts saved session information for software typically used to access Unix systems. [Invoke-SessionGopher.ps1](https://github.com/samratashok/nishang/blob/master/Gather/Invoke-SessionGopher.ps1)
@@ -677,6 +715,9 @@ romBase64String($EncodedOutput)))
 
 ## Persistence using WMI
 #### MOF files
+The list of MOF files for autorecovery is stored here :
+- ```HKLM\SOFTWARE\Microsoft\WBEM\CIMOM\Autorecover MOFs```
+- ```C:\Windows\system32\wbem\AutoRecover```
 
 #### WMI Event Subscriptions
 
