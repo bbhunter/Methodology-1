@@ -17,7 +17,7 @@ https://github.com/smicallef/spiderfoot
 - Social networks (linkedIn, hunter.io, clearbit, phonebook.cz, Facebook, Company twitter/instagram)
 - DNS history
 - ASN
-https://bgp.he.net/dns/aecon.com#_ipinfo
+https://bgp.he.net/dns/company.com#_ipinfo
 
 - Wayback machine, google cache
 
