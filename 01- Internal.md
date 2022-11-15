@@ -153,6 +153,7 @@
     - [Windows Defender : Credential Guard](#windows-defender--credential-guard)
   - [Resources](#resources)
       - [Red Team Cheatsheet](#red-team-cheatsheet)
+      - [OCD - AD Mind Map](#ocd---ad-mind-map)
       - [PetitPotam and ADCS](#petitpotam-and-adcs)
       - [Active Directory Exploitation cheatsheet](#active-directory-exploitation-cheatsheet)
       - [Attacking Active Directory](#attacking-active-directory)
@@ -1412,6 +1413,9 @@ dpat.py -n ntds.dit -c hashcat.potfile -g "Domain Admins.txt" "Enterprise Admins
 
 #### Red Team Cheatsheet 
 - https://0xsp.com/offensive/red-team-cheatsheet/
+
+#### OCD - AD Mind Map
+- https://orange-cyberdefense.github.io/ocd-mindmaps/img/pentest_ad_dark_2022_11.svg
 
 #### PetitPotam and ADCS
 - https://www.optiv.com/insights/source-zero/blog/petitpotam-active-directory-certificate-services

@@ -17,7 +17,7 @@ https://github.com/smicallef/spiderfoot
 - Social networks (linkedIn, hunter.io, clearbit, phonebook.cz, Facebook, Company twitter/instagram)
 - DNS history
 - ASN
-https://bgp.he.net/dns/aecon.com#_ipinfo
+https://bgp.he.net/dns/company.com#_ipinfo
 
 - Wayback machine, google cache
 
@@ -26,12 +26,36 @@ https://bgp.he.net/dns/aecon.com#_ipinfo
 - censys
 - shodan
 - scans.io
-- nmap
 - DNS brute force (aiodnsbrute, subLocal)
 - Aquatone, Eyewitness, Shutter
 - DNS zone transfer
 - subdomain takeover
-  
+
+#### NMAP
+- NSE scripts : 14 categories
+  - auth
+  - broadcast
+  - brute
+  - default
+  - discovery
+  - dos (not recommanded)
+  - exploit
+  - external
+  - fuzzer
+  - intrusive
+  - malware
+  - safe
+  - version
+  - vuln
+
+Scanning /24 IP range with UDP and TCP scan using SMB NSE script.
+```
+nmap -sU -sT -p U:137,139,T:22,21,80,443,139,445 --script=smb2-security-mode.nse 192.168.0.10/24
+```
+
+#### Recon-NG
+- https://github.com/lanmaster53/recon-ng
+
 ### User account enumeration
 On web app portal
 
