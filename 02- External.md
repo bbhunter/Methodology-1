@@ -199,6 +199,9 @@ Credsniper
 Re-using valid credentials on alternate services
 Mailsniper
 
+- https://infosecwriteups.com/all-about-multi-factor-authentication-security-bypass-f1a95f9b6362
+- https://medium.com/proferosec-osm/multi-factor-authentication-in-the-wild-bypass-methods-689f53f0b62b
+
 ### SSL/TLS
 - heartbleed
 - Shellshock

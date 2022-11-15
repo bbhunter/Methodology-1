@@ -30,6 +30,7 @@
       - [Command Execution Win32_Service](#command-execution-win32_service)
   - [WMI Persistence](#wmi-persistence)
       - [Malicious WMI providers](#malicious-wmi-providers)
+      - [Win32_LocalAdmins provider](#win32_localadmins-provider)
       - [WMI Backdoor](#wmi-backdoor)
       - [MOF files](#mof-files)
       - [WMI Event Subscriptions](#wmi-event-subscriptions)
@@ -746,13 +747,24 @@ $ErrorControl = [byte] 1
 Invoke-WmiMethod -Class Win32_Service -Name Create -ArgumentList $false, "Windows Performance", $ErrorControl, $null, $null, "WinPerf", "C:\Windows\System32\calc.exe", $null, $ServiceType, "Manual", "NT AUTHORITY\SYSTEM", ""
 ```
 
-
+Start the previously created service
+```
+Get-WmiObject -Class Win32_Service -Filter 'Name = "WinPerf"' | Invoke-WmiMethod -Name StartService
+```
 
 ## WMI Persistence
 #### Malicious WMI providers
+Attacker can create custom malicious WMI providers in order to backdoor a system.
+
 - https://gist.github.com/TheWover/4272ea5829d7f6b22fadaeb8aee3229a
 - https://gist.github.com/nicholasmckinney/6309dbd6d3a1aed04f1350e1a685916d
 - https://github.com/jaredcatkinson/EvilNetConnectionWMIProvider
+
+#### Win32_LocalAdmins provider
+Creates a class called Win32_LocalAdmins in hte **root\cimv2** namespace which can be used to list all local administrators.
+- https://github.com/rzander/LocalAdmins
+
+
 
 #### WMI Backdoor
 - https://github.com/mattifestation/WMI_Backdoor
