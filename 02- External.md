@@ -149,6 +149,7 @@ Git / Repo secret parsers
 
 #### General tool
 - https://github.com/knavesec/CredMaster
+
 The following plugins are currently supported:
 - OWA - Outlook Web Access
 - EWS - Exchange Web Services
