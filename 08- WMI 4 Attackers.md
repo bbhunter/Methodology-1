@@ -31,6 +31,8 @@
   - [WMI Persistence](#wmi-persistence)
       - [Malicious WMI providers](#malicious-wmi-providers)
       - [Win32_LocalAdmins provider](#win32_localadmins-provider)
+      - [EvilNetConnection WMI Provider](#evilnetconnection-wmi-provider)
+      - [EvilWMIProvider (SubTee)](#evilwmiprovider-subtee)
       - [WMI Backdoor](#wmi-backdoor)
       - [MOF files](#mof-files)
       - [WMI Event Subscriptions](#wmi-event-subscriptions)
@@ -764,7 +766,15 @@ Attacker can create custom malicious WMI providers in order to backdoor a system
 Creates a class called Win32_LocalAdmins in hte **root\cimv2** namespace which can be used to list all local administrators.
 - https://github.com/rzander/LocalAdmins
 
+#### EvilNetConnection WMI Provider
+- https://github.com/jaredcatkinson/EvilNetConnectionWMIProvider
+  
+WMI provider which when installed provides ability to execute PowerShell command with SYSTEM privileges.  
+- Needs elevated privileges to be installed
+- PowerShell.exe is **not** used to execute the payload
 
+#### EvilWMIProvider (SubTee)
+- https://gist.github.com/TheWover/4272ea5829d7f6b22fadaeb8aee3229a
 
 #### WMI Backdoor
 - https://github.com/mattifestation/WMI_Backdoor
@@ -775,9 +785,9 @@ The list of MOF files for autorecovery is stored here :
 - ```C:\Windows\system32\wbem\AutoRecover```
 
 #### WMI Event Subscriptions
+WMI has an event infrastructure which provides the capability of receiving notifications and respond to changes happening on a system.  
 
-
-
+--> Synchronous and Asynchronous event queries can be created.  
 
 
 
