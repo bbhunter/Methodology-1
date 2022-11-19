@@ -27,6 +27,9 @@ https://bgp.he.net/dns/company.com#_ipinfo
 - shodan
 - scans.io
 - DNS brute force (aiodnsbrute, subLocal)
+amass, sublist3r
+https://0xffsec.com/handbook/information-gathering/subdomain-enumeration/#asn-enumeration
+
 - Aquatone, Eyewitness, Shutter
 - DNS zone transfer
 - subdomain takeover
