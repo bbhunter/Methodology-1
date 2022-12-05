@@ -63,8 +63,8 @@ nmap -sU -sT -p U:137,139,T:22,21,80,443,139,445 --script=smb2-security-mode.nse
 On web app portal
 
 
-
-
+### Virtual Host
+- https://wya.pl/2022/06/16/virtual-hosting-a-well-forgotten-enumeration-technique/
 
 
 
