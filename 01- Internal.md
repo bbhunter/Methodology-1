@@ -212,6 +212,8 @@ Use the **DsrGetDcNameEx2**,**CLDAP** ping and **NetBIOS MailSlot** ping methods
 ## First foothold
 
 ### NAC Bypass (802.1x)
+- https://github.com/s0lst1c3/silentbridge/wiki
+
 NAC (Network Access Control) acts as a kind of a gatekeeper to the local network infrastructure. Its usually works with whitelists, blacklists, authentication requirements or host scanning to restrict access and keep unwanted devices out of the network.  
 
 NAC can be setup using multiple measures:
@@ -552,6 +554,8 @@ hashcat -m 13100 --force -a 0 hashes.kerberoast passwords_kerb.txt
 ```
 
 ### Abusing MS-SQL Service
+- https://www.offsec-journey.com/post/attacking-ms-sql-servers
+- https://github.com/NetSPI/PowerUpSQL/wiki/PowerUpSQL-Cheat-Sheet
 
 ```
 . ./PowerUPSQL.ps1
@@ -1348,6 +1352,13 @@ hashcat -m 13100 -a 0 TGS_hashes.txt ../../wordlists/rockyou_2021.txt
 
 
 ## Reporting / Collaborative
+
+### PlumHound
+- https://www.blackhillsinfosec.com/plumhound-reporting-engine-for-bloodhoundad/
+- https://github.com/plumhound
+
+### Pwndoc
+
 ### Password audit reporting
 - https://github.com/clr2of8/DPAT
 ```
