@@ -62,13 +62,22 @@ nmap -sU -sT -p U:137,139,T:22,21,80,443,139,445 --script=smb2-security-mode.nse
 ### User account enumeration
 On web app portal
 
+### Exposed documents - Metadata
+- Foca
 
 ### Virtual Host
 - https://wya.pl/2022/06/16/virtual-hosting-a-well-forgotten-enumeration-technique/
 
-
+## BGP Hijacking
+- [BGP Deep Dive](https://www.youtube.com/watch?v=SVo6cDnQQm0)
+- https://www.youtube.com/watch?v=oESNgliRar0
+- [Breaking HTTPS with BGP Hijacking](https://www.youtube.com/watch?v=iG5rIqgKuK4)
+- Pentest Mag - [BGP Hijacking](https://pentestmag.com/bgp-hijacking-attack/)
+- [NIST SP-800-54 - BGP Security](https://www.wired.com/images_blogs/threatlevel/files/nist_on_bgp_security.pdf)
+- [Defcon 16 - Stealing the Internet](https://www.youtube.com/watch?v=S0BM6aB90n8)
 
 ## Exposed services - Protocols
+
 ### HTTP/HTTPS
 
 ### SMTP
