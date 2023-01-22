@@ -56,7 +56,7 @@ Scanning /24 IP range with UDP and TCP scan using SMB NSE script.
 nmap -sU -sT -p U:137,139,T:22,21,80,443,139,445 --script=smb2-security-mode.nse 192.168.0.10/24
 ```
 
-#### Recon-NG
+#### Recon-NG 
 - https://github.com/lanmaster53/recon-ng
 
 ### User account enumeration

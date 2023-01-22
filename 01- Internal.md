@@ -188,7 +188,7 @@ klist tgt
 
 PowerShelll port scan
 ```
-0..65535 | % {echo ((new-object Net.Sockets.TcpClient).Connect(VICTIM_IP,$_)) "Port $_ is open!"} 2>$null
+PS C:\Users\lutzenfried> 0..65535 | % {echo ((New-object Net.Sockets.TcpClient).Connect("192.168.2.155",$_)) "Port $_ is open!"} 2> $null```
 ```
 
 AD search GUI
