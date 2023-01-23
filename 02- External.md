@@ -1,5 +1,8 @@
 # External Network Penetration Testing
 
+## OSINT
+
+
 ## Reconnaissance
 ### Passive External Network Reconnaissance
 - Google Dorks (GHDB), bing dorks
@@ -24,7 +27,7 @@ https://bgp.he.net/dns/company.com#_ipinfo
 ### Active External Network Reconnaissance
 - masscan
 - censys
-- shodan
+- shodan (search engine filters + monitor feature)
 - scans.io
 - DNS brute force (aiodnsbrute, subLocal)
 amass, sublist3r
