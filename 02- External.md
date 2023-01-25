@@ -5,7 +5,7 @@
   - [Reconnaissance](#reconnaissance)
     - [Passive External Network Reconnaissance](#passive-external-network-reconnaissance)
         - [Dorks](#dorks)
-      - [Pastebin](#pastebin)
+        - [Pastebin](#pastebin)
         - [Certificate Transparency](#certificate-transparency)
         - [Exposed credentials and leaks (Flare, DarkWeb Agent, dehashed, breach-parse)](#exposed-credentials-and-leaks-flare-darkweb-agent-dehashed-breach-parse)
         - [DNS history](#dns-history)
@@ -86,7 +86,7 @@ site:company.com -site:www.company.com
 site:*.company.com
 ```
 
-#### Pastebin
+##### Pastebin
 - https://github.com/carlospolop/Pastos
 - https://github.com/leapsecurity/Pastepwnd
 - https://github.com/CIRCL/AIL-framework
