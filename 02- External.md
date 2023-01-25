@@ -35,7 +35,7 @@
         - [Exposed storages](#exposed-storages)
         - [Scanning external target](#scanning-external-target)
   - [Exploitation](#exploitation)
-        - [RCE](#rce)
+      - [RCE](#rce)
         - [Exposed source code or credentials](#exposed-source-code-or-credentials)
         - [SAP](#sap)
         - [Lync](#lync)
@@ -269,7 +269,7 @@ for i in $(cat onesixtyone/dict.txt); do echo -n "$i : "; snmpget -v 3 -u $i udp
 
 ## Exploitation
 
-##### RCE
+#### RCE
 RCE-as-a-feature (Jenkins, Serv-U, etc).  
 - https://github.com/p0dalirius/Awesome-RCE-techniques
 
