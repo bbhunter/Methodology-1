@@ -46,13 +46,13 @@
         - [DNS Zone Transfer](#dns-zone-transfer)
         - [VPN - IKE Aggressive Mode](#vpn---ike-aggressive-mode)
   - [Password spray](#password-spray)
-        - [General tool](#general-tool)
+      - [General tool](#general-tool)
         - [CheckPoint SSL VPN](#checkpoint-ssl-vpn)
         - [O365](#o365)
         - [OWA](#owa)
         - [Azure](#azure)
         - [IP rotation](#ip-rotation)
-        - [2FA/MFA implementation issues](#2famfa-implementation-issues)
+      - [2FA/MFA implementation issues](#2famfa-implementation-issues)
         - [SSL/TLS](#ssltls)
   - [Resources](#resources)
         - [FOREGENIX : Know your attack surfaces](#foregenix--know-your-attack-surfaces)
@@ -340,7 +340,7 @@ nmap --script dns-zone-transfer.nse --script-args "dns-zone-transfer.domain=<TAR
 ## Password spray
 (o365, Azure, Citrix, RDP, VPN, OWA, etc)
 
-##### General tool
+#### General tool
 - https://github.com/knavesec/CredMaster
 
 The following plugins are currently supported:  
@@ -385,7 +385,7 @@ Sometimes during password spraying or brute force attack attacker will need to r
 - Amazon Lambda
 - Fireprox
 
-##### 2FA/MFA implementation issues
+#### 2FA/MFA implementation issues
 ​
 - [MFASweep](https://github.com/dafthack/MFASweep): Detect MFA for various Microsoft Servers  
 - Credsniper
