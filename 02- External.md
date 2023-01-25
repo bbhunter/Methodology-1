@@ -17,44 +17,45 @@
         - [Linkedin users search](#linkedin-users-search)
         - [Subdomain takeover](#subdomain-takeover)
         - [Bypassing CloudFlare](#bypassing-cloudflare)
-      - [NMAP](#nmap)
-      - [Recon-NG](#recon-ng)
-    - [User account enumeration](#user-account-enumeration)
-    - [Exposed documents - Metadata](#exposed-documents---metadata)
-    - [Virtual Host](#virtual-host)
-  - [BGP Hijacking](#bgp-hijacking)
+        - [NMAP](#nmap)
+        - [Recon-NG](#recon-ng)
+        - [User account enumeration](#user-account-enumeration)
+        - [Exposed documents - Metadata](#exposed-documents---metadata)
+        - [Virtual Host](#virtual-host)
+        - [BGP Hijacking](#bgp-hijacking)
         - [Cloud enumeration](#cloud-enumeration)
-  - [Exposed services - Protocols](#exposed-services---protocols)
-    - [HTTP/HTTPS](#httphttps)
-    - [SMTP](#smtp)
-    - [DKIM / DMARC / SPF misconfiguration](#dkim--dmarc--spf-misconfiguration)
-    - [SNMP](#snmp)
-    - [FTP](#ftp)
-    - [SSH](#ssh)
-    - [Databases (MySQL, MSSQL, Oracle, DB2, Postgre, MongoDB...)](#databases-mysql-mssql-oracle-db2-postgre-mongodb)
-    - [Exposed storages](#exposed-storages)
-    - [Scanning external target](#scanning-external-target)
+    - [Exposed services - Protocols](#exposed-services---protocols)
+        - [HTTP/HTTPS](#httphttps)
+        - [SMTP](#smtp)
+        - [DKIM / DMARC / SPF misconfiguration](#dkim--dmarc--spf-misconfiguration)
+        - [SNMP](#snmp)
+        - [FTP](#ftp)
+        - [SSH](#ssh)
+        - [Databases (MySQL, MSSQL, Oracle, DB2, Postgre, MongoDB...)](#databases-mysql-mssql-oracle-db2-postgre-mongodb)
+        - [Exposed storages](#exposed-storages)
+        - [Scanning external target](#scanning-external-target)
   - [Exploitation](#exploitation)
-    - [RCE](#rce)
-    - [Exposed source code or credentials](#exposed-source-code-or-credentials)
-    - [SAP](#sap)
-    - [Lync](#lync)
-    - [IIS specific checks](#iis-specific-checks)
-    - [Web vulnerabilities](#web-vulnerabilities)
-    - [Default Credentials in use](#default-credentials-in-use)
-    - [Open SMTP Relay](#open-smtp-relay)
-    - [DNS Zone Transfer](#dns-zone-transfer)
-    - [VPN - IKE Aggressive Mode](#vpn---ike-aggressive-mode)
+        - [RCE](#rce)
+        - [Exposed source code or credentials](#exposed-source-code-or-credentials)
+        - [SAP](#sap)
+        - [Lync](#lync)
+        - [IIS specific checks](#iis-specific-checks)
+        - [Web vulnerabilities](#web-vulnerabilities)
+        - [Default Credentials in use](#default-credentials-in-use)
+        - [Open SMTP Relay](#open-smtp-relay)
+        - [DNS Zone Transfer](#dns-zone-transfer)
+        - [VPN - IKE Aggressive Mode](#vpn---ike-aggressive-mode)
   - [Password spray](#password-spray)
-      - [General tool](#general-tool)
-      - [CheckPoint SSL VPN](#checkpoint-ssl-vpn)
-      - [O365](#o365)
-      - [OWA](#owa)
-      - [Azure](#azure)
-    - [IP rotation](#ip-rotation)
-    - [2FA/MFA implementation issues](#2famfa-implementation-issues)
-    - [SSL/TLS](#ssltls)
+        - [General tool](#general-tool)
+        - [CheckPoint SSL VPN](#checkpoint-ssl-vpn)
+        - [O365](#o365)
+        - [OWA](#owa)
+        - [Azure](#azure)
+        - [IP rotation](#ip-rotation)
+        - [2FA/MFA implementation issues](#2famfa-implementation-issues)
+        - [SSL/TLS](#ssltls)
   - [Resources](#resources)
+        - [FOREGENIX : Know your attack surfaces](#foregenix--know-your-attack-surfaces)
         - [Offensive OSINT](#offensive-osint)
         - [OSINT Resources](#osint-resources)
         - [Pentest Check-List](#pentest-check-list)
@@ -144,7 +145,8 @@ echo "144.178.0.0/10" | tlsx -san
 - masscan
 - censys
 - shodan (search engine filters + monitor feature)
-- scans.ioT- 
+- scans.io
+  
 ##### Subdomain enumeration
 - DNS brute force (aiodnsbrute, subLocal)
 
@@ -184,7 +186,7 @@ subfinder -d targetdomain.com -o output.txt
 
 - https://www.ericzhang.me/resolve-cloudflare-ip-leakage/
 
-#### NMAP
+##### NMAP
 - NSE scripts : 14 categories
   - auth
   - broadcast
@@ -206,21 +208,21 @@ Scanning /24 IP range with UDP and TCP scan using SMB NSE script.
 nmap -sU -sT -p U:137,139,T:22,21,80,443,139,445 --script=smb2-security-mode.nse 192.168.0.10/24
 ```
 
-#### Recon-NG 
+##### Recon-NG 
 - https://github.com/lanmaster53/recon-ng
 
-### User account enumeration
-On web app portal
+##### User account enumeration
+Against web app portal
 
-### Exposed documents - Metadata
+##### Exposed documents - Metadata
 - [Foca](https://github.com/ElevenPaths/FOCA)
 - [PowerMeta](https://github.com/dafthack/PowerMeta)
 - [Pymeta](https://github.com/m8sec/pymeta)
 
-### Virtual Host
+##### Virtual Host
 - https://wya.pl/2022/06/16/virtual-hosting-a-well-forgotten-enumeration-technique/
 
-## BGP Hijacking
+##### BGP Hijacking
 - [BGP Deep Dive](https://www.youtube.com/watch?v=SVo6cDnQQm0)
 - https://www.youtube.com/watch?v=oESNgliRar0
 - [Breaking HTTPS with BGP Hijacking](https://www.youtube.com/watch?v=iG5rIqgKuK4)
@@ -232,17 +234,17 @@ On web app portal
 - [MicroBurst](https://github.com/NetSPI/MicroBurst)
 - [cloud_enum.py](https://github.com/initstring/cloud_enum)
 
-## Exposed services - Protocols
+### Exposed services - Protocols
 
-### HTTP/HTTPS
+##### HTTP/HTTPS
 
-### SMTP
+##### SMTP
 
-### DKIM / DMARC / SPF misconfiguration
-https://github.com/BishopFox/spoofcheck.git
-https://github.com/Mr-Un1k0d3r/SPFAbuse
+##### DKIM / DMARC / SPF misconfiguration
+- https://github.com/BishopFox/spoofcheck.git
+- https://github.com/Mr-Un1k0d3r/SPFAbuse
 
-### SNMP
+##### SNMP
 - snmpget
 - onesixtyone
 
@@ -250,34 +252,30 @@ https://github.com/Mr-Un1k0d3r/SPFAbuse
 for i in $(cat onesixtyone/dict.txt); do echo -n "$i : "; snmpget -v 3 -u $i udp6:[IPv6] MIB_TO_FETCH; done
 ```
 
-### FTP
+##### FTP
 
-### SSH
+##### SSH
 
-### Databases (MySQL, MSSQL, Oracle, DB2, Postgre, MongoDB...)
+##### Databases (MySQL, MSSQL, Oracle, DB2, Postgre, MongoDB...)
 
-### Exposed storages
+##### Exposed storages
 - AWS S3 buckets
 - Azure blob storage
 - GCP storage
 
-### Scanning external target
+##### Scanning external target
 - Nessus, Burp Enterprise, Qualys, nuclei, wpscan, joomscan...
 http://www.melcara.com/wp-content/uploads/2017/09/parse_nessus_xml.v24.pl_.zip
 
 
 
 
-
-
-
-
 ## Exploitation
-### RCE
+##### RCE
 RCE-as-a-feature (Jenkins, Serv-U, etc).
 - https://github.com/p0dalirius/Awesome-RCE-techniques
 
-### Exposed source code or credentials
+##### Exposed source code or credentials
 - .git folder
 - Access key, token, secret on github, gitlab, mercurial, code repo solutions...
 Git / Repo secret parsers
@@ -288,26 +286,42 @@ Git / Repo secret parsers
     shhgit (https://github.com/eth0izzle/shhgit)
     gitrob (https://github.com/michenriksen/gitrob)
 
-### SAP
+##### SAP
 - https://book.hacktricks.xyz/network-services-pentesting/pentesting-sap
   
-### Lync
+##### Lync
 - https://www.mdsec.co.uk/2017/04/penetration-testing-skype-for-business-exploiting-the-missing-lync/
 - https://www.trustedsec.com/blog/attacking-self-hosted-skype-businessmicrosoft-lync-installations/
 - https://github.com/mdsecresearch/LyncSniper
 
-### IIS specific checks
+##### IIS specific checks
+ASPNET_CLIENT Folder enumeration
+- http://itdrafts.blogspot.com/2013/02/aspnetclient-folder-enumeration-and.html
 
-### Web vulnerabilities
+- [IIS Fuzz wordlist](https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/Web-Content/IIS.fuzz.txt)
+- [IIS Wordlist HackTricks](https://1517081779-files.gitbook.io/~/files/v0/b/gitbook-legacy-files/o/assets%2F-L_2uGJGU7AVNRcqRvEi%2F-L_YlVBGlH_l7w9zCtQO%2F-L_YlWYOMUA7fr799GvH%2Fiisfinal.txt?alt=media&token=de499b23-3599-45ce-ad7e-7800858b3dac)
+
+- .Trace.axd file
+
+IIS tilde character “~” Vulnerability/Feature
+- Burp Suite Module IIS Tilde Enumeration
+- [IIS-ShortName-Scanner](https://github.com/irsdl/IIS-ShortName-Scanner)
+```
+java -jar iis_shortname_scanner.jar 2 20 https://iiswebserver.com
+```
+
+##### Web vulnerabilities
 - serialization/deserialization
 
-### Default Credentials in use
+##### Default Credentials in use
+- https://diarium.usal.es/pmgallardo/2020/10/31/list-of-default-credentials-websites/
+- https://cirt.net/passwords
+- https://datarecovery.com/rd/default-passwords/
 
-
-### Open SMTP Relay
+##### Open SMTP Relay
 - https://www.blackhillsinfosec.com/how-to-test-for-open-mail-relays/
 
-### DNS Zone Transfer
+##### DNS Zone Transfer
 - https://github.com/mschwager/fierce.git
 ```
 fierce -dns domain.fr
@@ -323,13 +337,12 @@ dig @your-ip -t axfr <TARGETDOMAIN.COM>
 nmap --script dns-zone-transfer.nse --script-args "dns-zone-transfer.domain=<TARGETDOMAIN.COM>" -Pn -p 53 <TARGET_IP>
 ```
 
-
-### VPN - IKE Aggressive Mode
+##### VPN - IKE Aggressive Mode
 
 ## Password spray
 (o365, Azure, Citrix, RDP, VPN, OWA, etc)
 
-#### General tool
+##### General tool
 - https://github.com/knavesec/CredMaster
 
 The following plugins are currently supported:
@@ -345,10 +358,10 @@ The following plugins are currently supported:
 - AzureSSO - Azure AD Seamless SSO Endpoint
 - GmailEnum - Gmail User Enumeration (No Authentication Request)
 
-#### CheckPoint SSL VPN 
+##### CheckPoint SSL VPN 
 - https://github.com/lutzenfried/checkpointSpray
 
-#### O365
+##### O365
 - https://github.com/SecurityRiskAdvisors/msspray
 - https://github.com/blacklanternsecurity/TREVORspray
 
@@ -356,14 +369,14 @@ The following plugins are currently supported:
  ./trevorspray.py -e emails.txt --passwords "Winter2021!"  --delay 15 --no-current-ip --ssh ubuntu@<IP> ubuntu2@<IP2> -k privkey.pem
  ```
 
-#### OWA
+##### OWA
 Metasploit module : ```scanner/http/owa_login```
 
-#### Azure
+##### Azure
 - https://github.com/dafthack/MSOLSpray
 - https://github.com/blacklanternsecurity/TREVORspray
 
-### IP rotation
+##### IP rotation
 Sometimes during password spraying or brute force attack attacker will need to rotate IP and geolocation to avoid being blocked.
 
 - Burp Extension: IPRotate
@@ -374,25 +387,25 @@ Sometimes during password spraying or brute force attack attacker will need to r
 - Amazon Lambda
 - Fireprox
 
-### 2FA/MFA implementation issues
+##### 2FA/MFA implementation issues
 ​
-[MFASweep](https://github.com/dafthack/MFASweep): Detect MFA for various Microsoft Servers
-Credsniper
+- [MFASweep](https://github.com/dafthack/MFASweep): Detect MFA for various Microsoft Servers  
+- Credsniper
+
 Re-using valid credentials on alternate services
-Mailsniper
+- Mailsniper
 
 - https://infosecwriteups.com/all-about-multi-factor-authentication-security-bypass-f1a95f9b6362
 - https://medium.com/proferosec-osm/multi-factor-authentication-in-the-wild-bypass-methods-689f53f0b62b
 
-### SSL/TLS
+##### SSL/TLS
 - heartbleed
 - Shellshock
 
-
-
-https://www.foregenix.com/blog/know-your-attack-surfaces
-
 ## Resources
+
+##### FOREGENIX : Know your attack surfaces
+- https://www.foregenix.com/blog/know-your-attack-surfaces
 
 ##### Offensive OSINT
 - https://www.offensiveosint.io/offensive-osint-introduction/
