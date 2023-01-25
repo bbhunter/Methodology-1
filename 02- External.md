@@ -268,7 +268,8 @@ for i in $(cat onesixtyone/dict.txt); do echo -n "$i : "; snmpget -v 3 -u $i udp
 http://www.melcara.com/wp-content/uploads/2017/09/parse_nessus_xml.v24.pl_.zip
 
 
-## Exploitation  
+## Exploitation
+
 ##### RCE
 RCE-as-a-feature (Jenkins, Serv-U, etc).  
 - https://github.com/p0dalirius/Awesome-RCE-techniques
