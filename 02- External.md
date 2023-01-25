@@ -5,19 +5,25 @@
   - [Reconnaissance](#reconnaissance)
     - [Passive External Network Reconnaissance](#passive-external-network-reconnaissance)
         - [Dorks](#dorks)
+      - [Pastebin](#pastebin)
         - [Certificate Transparency](#certificate-transparency)
-        - [Exposed credentials and leaks (Flare, dehashed, breach-parse)](#exposed-credentials-and-leaks-flare-dehashed-breach-parse)
+        - [Exposed credentials and leaks (Flare, DarkWeb Agent, dehashed, breach-parse)](#exposed-credentials-and-leaks-flare-darkweb-agent-dehashed-breach-parse)
         - [DNS history](#dns-history)
-        - [ASN enumeration](#asn-enumeration)
+        - [ASN Lookups](#asn-lookups)
         - [Web Archive](#web-archive)
     - [Active External Network Reconnaissance](#active-external-network-reconnaissance)
         - [Subdomain enumeration](#subdomain-enumeration)
+        - [HTTP/HTTPS Screenshots](#httphttps-screenshots)
+        - [Linkedin users search](#linkedin-users-search)
+        - [Subdomain takeover](#subdomain-takeover)
+        - [Bypassing CloudFlare](#bypassing-cloudflare)
       - [NMAP](#nmap)
       - [Recon-NG](#recon-ng)
     - [User account enumeration](#user-account-enumeration)
     - [Exposed documents - Metadata](#exposed-documents---metadata)
     - [Virtual Host](#virtual-host)
   - [BGP Hijacking](#bgp-hijacking)
+        - [Cloud enumeration](#cloud-enumeration)
   - [Exposed services - Protocols](#exposed-services---protocols)
     - [HTTP/HTTPS](#httphttps)
     - [SMTP](#smtp)
@@ -49,6 +55,10 @@
     - [2FA/MFA implementation issues](#2famfa-implementation-issues)
     - [SSL/TLS](#ssltls)
   - [Resources](#resources)
+        - [Offensive OSINT](#offensive-osint)
+        - [OSINT Resources](#osint-resources)
+        - [Pentest Check-List](#pentest-check-list)
+        - [Haax cheatsheet](#haax-cheatsheet)
 
 
 ## OSINT
@@ -71,16 +81,17 @@ site:*.company.com
 
 Bing dorks
 ```
-site:company.com -site:www.company.com
+site:company.com -site:www.company.com 
 site:*.company.com
 ```
 
-- Pastebin
-https://github.com/carlospolop/Pastos
-https://github.com/leapsecurity/Pastepwnd
-https://github.com/CIRCL/AIL-framework
-https://github.com/cvandeplas/pystemon
-https://github.com/xme/pastemon
+#### Pastebin
+- https://github.com/carlospolop/Pastos
+- https://github.com/leapsecurity/Pastepwnd
+- https://github.com/CIRCL/AIL-framework
+- https://github.com/cvandeplas/pystemon
+- https://github.com/xme/pastemon
+
 ##### Certificate Transparency
 - crt.sh
 - https://developers.facebook.com/tools/ct/
@@ -98,16 +109,14 @@ curl -s https://crt.sh/\?o\=Company\&output\=json > crt.txt
 cat crt.txt | jq -r '.[].common_name' | DomainParser | sort -u
 ```
 
-##### Exposed credentials and leaks (Flare, dehashed, breach-parse)
+##### Exposed credentials and leaks (Flare, DarkWeb Agent, dehashed, breach-parse)
 - Social networks (linkedIn, hunter.io, clearbit, phonebook.cz, Facebook, Company twitter/instagram)
-
-
 
 ##### DNS history
 - Security-Trails
 - https://intodns.com/company.com)
 
-##### ASN enumeration  
+##### ASN Lookups  
 https://bgp.he.net/dns/company.com#_ipinfo  
 Shodan ASN filter feature
 
@@ -137,8 +146,9 @@ echo "144.178.0.0/10" | tlsx -san
 - shodan (search engine filters + monitor feature)
 - scans.ioT- 
 ##### Subdomain enumeration
-DNS brute force (aiodnsbrute, subLocal)
-amass, sublist3r
+- DNS brute force (aiodnsbrute, subLocal)
+
+- DNS Recon ([amass](https://github.com/OWASP/Amass), [sublist3r](https://github.com/aboul3la/Sublist3r))
 https://0xffsec.com/handbook/information-gathering/subdomain-enumeration/#asn-enumeration
 
 A (script)[https://github.com/appsecco/the-art-of-subdomain-enumeration/blob/master/san_subdomain_enum.py] to extract sub-domains from Subject Alternate Name(SAN) in X.509 certs 
@@ -147,16 +157,32 @@ A (script)[https://github.com/appsecco/the-art-of-subdomain-enumeration/blob/mas
 python3 san_subdomain_enum.py company.com
 ```
 
+- https://github.com/projectdiscovery/subfinder
+Subdomain discovery tool that discovers valid subdomains for websites by using passive online sources.
+```
+subfinder -d targetdomain.com -o output.txt
+```
 
-- Aquatone, Eyewitness, Shutter
-- DNS zone transfer
-- subdomain takeover
+##### HTTP/HTTPS Screenshots
+- [Aquatone](https://github.com/michenriksen/aquatone)
+- [Eyewitness](https://github.com/FortyNorthSecurity/EyeWitness)
+- [WitnessMe](https://github.com/byt3bl33d3r/WitnessMe)
+- [GoWitness](https://github.com/sensepost/gowitness)
 
-Bypassing CloudFlare
+##### Linkedin users search
+- https://github.com/initstring/linkedin2username.git
 
-https://www.ericzhang.me/resolve-cloudflare-ip-leakage/
+##### Subdomain takeover
+- https://www.hackerone.com/blog/Guide-Subdomain-Takeovers
+- (https://github.com/haccer/subjack)
+```
+./subjack -w subdomains.txt -t 100 -timeout 30 -o results.txt -ssl
+```
 
-This tool can be used to find old IPs. It could mean that the http://toolbar.netcraft.com/site_report?url=lyst.com
+##### Bypassing CloudFlare
+- https://github.com/greycatz/CloudUnflare
+
+- https://www.ericzhang.me/resolve-cloudflare-ip-leakage/
 
 #### NMAP
 - NSE scripts : 14 categories
@@ -187,7 +213,9 @@ nmap -sU -sT -p U:137,139,T:22,21,80,443,139,445 --script=smb2-security-mode.nse
 On web app portal
 
 ### Exposed documents - Metadata
-- Foca
+- [Foca](https://github.com/ElevenPaths/FOCA)
+- [PowerMeta](https://github.com/dafthack/PowerMeta)
+- [Pymeta](https://github.com/m8sec/pymeta)
 
 ### Virtual Host
 - https://wya.pl/2022/06/16/virtual-hosting-a-well-forgotten-enumeration-technique/
@@ -199,6 +227,10 @@ On web app portal
 - Pentest Mag - [BGP Hijacking](https://pentestmag.com/bgp-hijacking-attack/)
 - [NIST SP-800-54 - BGP Security](https://www.wired.com/images_blogs/threatlevel/files/nist_on_bgp_security.pdf)
 - [Defcon 16 - Stealing the Internet](https://www.youtube.com/watch?v=S0BM6aB90n8)
+
+##### Cloud enumeration
+- [MicroBurst](https://github.com/NetSPI/MicroBurst)
+- [cloud_enum.py](https://github.com/initstring/cloud_enum)
 
 ## Exposed services - Protocols
 
@@ -276,6 +308,20 @@ Git / Repo secret parsers
 - https://www.blackhillsinfosec.com/how-to-test-for-open-mail-relays/
 
 ### DNS Zone Transfer
+- https://github.com/mschwager/fierce.git
+```
+fierce -dns domain.fr
+```
+
+- https://github.com/cybernova/DNSaxfr
+
+```
+dig @your-ip -t axfr <TARGETDOMAIN.COM>
+```
+
+```
+nmap --script dns-zone-transfer.nse --script-args "dns-zone-transfer.domain=<TARGETDOMAIN.COM>" -Pn -p 53 <TARGET_IP>
+```
 
 
 ### VPN - IKE Aggressive Mode
@@ -348,4 +394,15 @@ https://www.foregenix.com/blog/know-your-attack-surfaces
 
 ## Resources
 
+##### Offensive OSINT
 - https://www.offensiveosint.io/offensive-osint-introduction/
+
+##### OSINT Resources
+- https://cheatsheet.haax.fr/resources/osint/
+- https://cheatsheet.haax.fr/open-source-intelligence-osint/
+
+##### Pentest Check-List
+- https://github.com/ibr0wse/RedTeam-PenTest-Cheatsheet-Checklist
+
+##### Haax cheatsheet
+- https://cheatsheet.haax.fr/open-source-intelligence-osint/technical-recon/subdomain_discovery/
