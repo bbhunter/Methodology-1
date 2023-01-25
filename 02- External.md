@@ -1,41 +1,162 @@
 # External Network Penetration Testing
 
-## OSINT
+- [External Network Penetration Testing](#external-network-penetration-testing)
+  - [OSINT](#osint)
+  - [Reconnaissance](#reconnaissance)
+    - [Passive External Network Reconnaissance](#passive-external-network-reconnaissance)
+        - [Dorks](#dorks)
+        - [Certificate Transparency](#certificate-transparency)
+        - [Exposed credentials and leaks (Flare, dehashed, breach-parse)](#exposed-credentials-and-leaks-flare-dehashed-breach-parse)
+        - [DNS history](#dns-history)
+        - [ASN enumeration](#asn-enumeration)
+        - [Web Archive](#web-archive)
+    - [Active External Network Reconnaissance](#active-external-network-reconnaissance)
+        - [Subdomain enumeration](#subdomain-enumeration)
+      - [NMAP](#nmap)
+      - [Recon-NG](#recon-ng)
+    - [User account enumeration](#user-account-enumeration)
+    - [Exposed documents - Metadata](#exposed-documents---metadata)
+    - [Virtual Host](#virtual-host)
+  - [BGP Hijacking](#bgp-hijacking)
+  - [Exposed services - Protocols](#exposed-services---protocols)
+    - [HTTP/HTTPS](#httphttps)
+    - [SMTP](#smtp)
+    - [DKIM / DMARC / SPF misconfiguration](#dkim--dmarc--spf-misconfiguration)
+    - [SNMP](#snmp)
+    - [FTP](#ftp)
+    - [SSH](#ssh)
+    - [Databases (MySQL, MSSQL, Oracle, DB2, Postgre, MongoDB...)](#databases-mysql-mssql-oracle-db2-postgre-mongodb)
+    - [Exposed storages](#exposed-storages)
+    - [Scanning external target](#scanning-external-target)
+  - [Exploitation](#exploitation)
+    - [RCE](#rce)
+    - [Exposed source code or credentials](#exposed-source-code-or-credentials)
+    - [SAP](#sap)
+    - [Lync](#lync)
+    - [IIS specific checks](#iis-specific-checks)
+    - [Web vulnerabilities](#web-vulnerabilities)
+    - [Default Credentials in use](#default-credentials-in-use)
+    - [Open SMTP Relay](#open-smtp-relay)
+    - [DNS Zone Transfer](#dns-zone-transfer)
+    - [VPN - IKE Aggressive Mode](#vpn---ike-aggressive-mode)
+  - [Password spray](#password-spray)
+      - [General tool](#general-tool)
+      - [CheckPoint SSL VPN](#checkpoint-ssl-vpn)
+      - [O365](#o365)
+      - [OWA](#owa)
+      - [Azure](#azure)
+    - [IP rotation](#ip-rotation)
+    - [2FA/MFA implementation issues](#2famfa-implementation-issues)
+    - [SSL/TLS](#ssltls)
+  - [Resources](#resources)
 
+
+## OSINT
+- spiderfoot  
+https://github.com/smicallef/spiderfoot
+
+- Maltego
+
+- Metabigor  
+https://github.com/j3ssie/metabigor
 
 ## Reconnaissance
 ### Passive External Network Reconnaissance
-- Google Dorks (GHDB), bing dorks
+##### Dorks
+Google dorks
+```
+site:company.com -site:www.company.com
+site:*.company.com
+```
+
+Bing dorks
+```
+site:company.com -site:www.company.com
+site:*.company.com
+```
+
 - Pastebin
 https://github.com/carlospolop/Pastos
 https://github.com/leapsecurity/Pastepwnd
 https://github.com/CIRCL/AIL-framework
 https://github.com/cvandeplas/pystemon
 https://github.com/xme/pastemon
+##### Certificate Transparency
 - crt.sh
+- https://developers.facebook.com/tools/ct/
+https://transparencyreport.google.com/https/certificates
 - https://certstream.calidog.io/
-- spiderfoot
-https://github.com/smicallef/spiderfoot
-- Exposed credentials and leaks (Flare, dehashed, breach-parse)
+
+- [ct-exposer](https://github.com/chris408/ct-exposer)
+```
+python3 ct-exposer.py -d teslamotors.com
+```
+
+Finding domain for a company using certificate transparency list ([Domain Parser](https://github.com/NeelRanka/DomainParser))
+```
+curl -s https://crt.sh/\?o\=Company\&output\=json > crt.txt
+cat crt.txt | jq -r '.[].common_name' | DomainParser | sort -u
+```
+
+##### Exposed credentials and leaks (Flare, dehashed, breach-parse)
 - Social networks (linkedIn, hunter.io, clearbit, phonebook.cz, Facebook, Company twitter/instagram)
-- DNS history
-- ASN
-https://bgp.he.net/dns/company.com#_ipinfo
 
-- Wayback machine, google cache
 
+
+##### DNS history
+- Security-Trails
+- https://intodns.com/company.com)
+
+##### ASN enumeration  
+https://bgp.he.net/dns/company.com#_ipinfo  
+Shodan ASN filter feature
+
+Google search  
+```
+ipinfo asn Company Name
+```
+
+Amass Intel module  
+```
+amass intel -org CompanyName
+```
+
+[TLSX : TLS Grabber](https://github.com/projectdiscovery/tlsx)
+```
+echo "144.178.0.0/10" | tlsx -san
+```
+
+##### Web Archive
+  - Wayback machine
+  - https://archive.fo
+  - Google cache
+ 
 ### Active External Network Reconnaissance
 - masscan
 - censys
 - shodan (search engine filters + monitor feature)
-- scans.io
-- DNS brute force (aiodnsbrute, subLocal)
+- scans.ioT- 
+##### Subdomain enumeration
+DNS brute force (aiodnsbrute, subLocal)
 amass, sublist3r
 https://0xffsec.com/handbook/information-gathering/subdomain-enumeration/#asn-enumeration
+
+A (script)[https://github.com/appsecco/the-art-of-subdomain-enumeration/blob/master/san_subdomain_enum.py] to extract sub-domains from Subject Alternate Name(SAN) in X.509 certs 
+- Source: https://github.com/appsecco/the-art-of-subdomain-enumeration  
+```
+python3 san_subdomain_enum.py company.com
+```
+
 
 - Aquatone, Eyewitness, Shutter
 - DNS zone transfer
 - subdomain takeover
+
+Bypassing CloudFlare
+
+https://www.ericzhang.me/resolve-cloudflare-ip-leakage/
+
+This tool can be used to find old IPs. It could mean that the http://toolbar.netcraft.com/site_report?url=lyst.com
 
 #### NMAP
 - NSE scripts : 14 categories
@@ -224,3 +345,7 @@ Mailsniper
 
 
 https://www.foregenix.com/blog/know-your-attack-surfaces
+
+## Resources
+
+- https://www.offensiveosint.io/offensive-osint-introduction/
