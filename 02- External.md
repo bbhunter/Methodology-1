@@ -268,23 +268,21 @@ for i in $(cat onesixtyone/dict.txt); do echo -n "$i : "; snmpget -v 3 -u $i udp
 http://www.melcara.com/wp-content/uploads/2017/09/parse_nessus_xml.v24.pl_.zip
 
 
-
-
-## Exploitation
+## Exploitation  
 ##### RCE
-RCE-as-a-feature (Jenkins, Serv-U, etc).
+RCE-as-a-feature (Jenkins, Serv-U, etc).  
 - https://github.com/p0dalirius/Awesome-RCE-techniques
 
 ##### Exposed source code or credentials
-- .git folder
+- .git folder  
 - Access key, token, secret on github, gitlab, mercurial, code repo solutions...
-Git / Repo secret parsers
+Git / Repo secret parsers  
 
-    gitleaks (https://github.com/zricethezav/gitleaks)
-    trufflehog (https://github.com/trufflesecurity/truffleHog)
-    git-secrets (https://github.com/awslabs/git-secrets)
-    shhgit (https://github.com/eth0izzle/shhgit)
-    gitrob (https://github.com/michenriksen/gitrob)
+- gitleaks (https://github.com/zricethezav/gitleaks)
+- trufflehog (https://github.com/trufflesecurity/truffleHog)
+- git-secrets (https://github.com/awslabs/git-secrets)
+- shhgit (https://github.com/eth0izzle/shhgit)
+- gitrob (https://github.com/michenriksen/gitrob)
 
 ##### SAP
 - https://book.hacktricks.xyz/network-services-pentesting/pentesting-sap
