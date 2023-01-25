@@ -41,6 +41,7 @@
       - [Lync](#lync)
       - [IIS specific checks](#iis-specific-checks)
       - [Web vulnerabilities](#web-vulnerabilities)
+      - [SSL/TLS implementation](#ssltls-implementation)
       - [Default Credentials in use](#default-credentials-in-use)
       - [Open SMTP Relay](#open-smtp-relay)
       - [DNS Zone Transfer](#dns-zone-transfer)
@@ -53,7 +54,6 @@
         - [Azure](#azure)
         - [IP rotation](#ip-rotation)
       - [2FA/MFA implementation issues](#2famfa-implementation-issues)
-      - [SSL/TLS implementation](#ssltls-implementation)
   - [Resources](#resources)
       - [FOREGENIX : Know your attack surfaces](#foregenix--know-your-attack-surfaces)
       - [Offensive OSINT](#offensive-osint)
@@ -311,6 +311,10 @@ java -jar iis_shortname_scanner.jar 2 20 https://iiswebserver.com
 #### Web vulnerabilities
 - serialization/deserialization  
 
+#### SSL/TLS implementation
+- heartbleed
+- Shellshock
+
 #### Default Credentials in use
 - https://diarium.usal.es/pmgallardo/2020/10/31/list-of-default-credentials-websites/
 - https://cirt.net/passwords
@@ -395,10 +399,6 @@ Re-using valid credentials on alternate services
 
 - https://infosecwriteups.com/all-about-multi-factor-authentication-security-bypass-f1a95f9b6362
 - https://medium.com/proferosec-osm/multi-factor-authentication-in-the-wild-bypass-methods-689f53f0b62b
-
-#### SSL/TLS implementation
-- heartbleed
-- Shellshock
 
 ## Resources
 
