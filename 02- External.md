@@ -264,9 +264,8 @@ for i in $(cat onesixtyone/dict.txt); do echo -n "$i : "; snmpget -v 3 -u $i udp
 - GCP storage
 
 ##### Scanning external target
-- Nessus, Burp Enterprise, Qualys, nuclei, wpscan, joomscan...
-http://www.melcara.com/wp-content/uploads/2017/09/parse_nessus_xml.v24.pl_.zip
-
+- Nessus, Burp Enterprise, Qualys, nuclei, wpscan, joomscan.  
+- [Nessus Perl Parser](http://www.melcara.com/wp-content/uploads/2017/09/parse_nessus_xml.v24.pl_.zip)
 
 ## Exploitation
 
@@ -294,7 +293,7 @@ Git / Repo secret parsers
 - https://github.com/mdsecresearch/LyncSniper
 
 ##### IIS specific checks
-ASPNET_CLIENT Folder enumeration
+ASPNET_CLIENT Folder enumeration  
 - http://itdrafts.blogspot.com/2013/02/aspnetclient-folder-enumeration-and.html
 
 - [IIS Fuzz wordlist](https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/Web-Content/IIS.fuzz.txt)
@@ -302,7 +301,7 @@ ASPNET_CLIENT Folder enumeration
 
 - .Trace.axd file
 
-IIS tilde character “~” Vulnerability/Feature
+IIS tilde character “~” Vulnerability/Feature  
 - Burp Suite Module IIS Tilde Enumeration
 - [IIS-ShortName-Scanner](https://github.com/irsdl/IIS-ShortName-Scanner)
 ```
@@ -310,7 +309,7 @@ java -jar iis_shortname_scanner.jar 2 20 https://iiswebserver.com
 ```
 
 ##### Web vulnerabilities
-- serialization/deserialization
+- serialization/deserialization  
 
 ##### Default Credentials in use
 - https://diarium.usal.es/pmgallardo/2020/10/31/list-of-default-credentials-websites/
@@ -329,7 +328,7 @@ fierce -dns domain.fr
 - https://github.com/cybernova/DNSaxfr
 
 ```
-dig @your-ip -t axfr <TARGETDOMAIN.COM>
+dig @your-ip -t axfr <TARGETDOMAIN.COM>  
 ```
 
 ```
@@ -344,7 +343,7 @@ nmap --script dns-zone-transfer.nse --script-args "dns-zone-transfer.domain=<TAR
 ##### General tool
 - https://github.com/knavesec/CredMaster
 
-The following plugins are currently supported:
+The following plugins are currently supported:  
 - OWA - Outlook Web Access
 - EWS - Exchange Web Services
 - O365 - Office365
@@ -369,14 +368,14 @@ The following plugins are currently supported:
  ```
 
 ##### OWA
-Metasploit module : ```scanner/http/owa_login```
+Metasploit module : ```scanner/http/owa_login```  
 
 ##### Azure
 - https://github.com/dafthack/MSOLSpray
 - https://github.com/blacklanternsecurity/TREVORspray
 
 ##### IP rotation
-Sometimes during password spraying or brute force attack attacker will need to rotate IP and geolocation to avoid being blocked.
+Sometimes during password spraying or brute force attack attacker will need to rotate IP and geolocation to avoid being blocked.  
 
 - Burp Extension: IPRotate
 - RhinoSecurity Blog : https://rhinosecuritylabs.com/aws/bypassing-ip-based-blocking-aws/
@@ -391,7 +390,7 @@ Sometimes during password spraying or brute force attack attacker will need to r
 - [MFASweep](https://github.com/dafthack/MFASweep): Detect MFA for various Microsoft Servers  
 - Credsniper
 
-Re-using valid credentials on alternate services
+Re-using valid credentials on alternate services  
 - Mailsniper
 
 - https://infosecwriteups.com/all-about-multi-factor-authentication-security-bypass-f1a95f9b6362
