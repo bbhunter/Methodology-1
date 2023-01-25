@@ -36,15 +36,15 @@
         - [Scanning external target](#scanning-external-target)
   - [Exploitation](#exploitation)
       - [RCE](#rce)
-        - [Exposed source code or credentials](#exposed-source-code-or-credentials)
-        - [SAP](#sap)
-        - [Lync](#lync)
-        - [IIS specific checks](#iis-specific-checks)
-        - [Web vulnerabilities](#web-vulnerabilities)
-        - [Default Credentials in use](#default-credentials-in-use)
-        - [Open SMTP Relay](#open-smtp-relay)
-        - [DNS Zone Transfer](#dns-zone-transfer)
-        - [VPN - IKE Aggressive Mode](#vpn---ike-aggressive-mode)
+      - [Exposed source code or credentials](#exposed-source-code-or-credentials)
+      - [SAP](#sap)
+      - [Lync](#lync)
+      - [IIS specific checks](#iis-specific-checks)
+      - [Web vulnerabilities](#web-vulnerabilities)
+      - [Default Credentials in use](#default-credentials-in-use)
+      - [Open SMTP Relay](#open-smtp-relay)
+      - [DNS Zone Transfer](#dns-zone-transfer)
+      - [VPN - IKE Aggressive Mode](#vpn---ike-aggressive-mode)
   - [Password spray](#password-spray)
       - [General tool](#general-tool)
         - [CheckPoint SSL VPN](#checkpoint-ssl-vpn)
@@ -53,13 +53,13 @@
         - [Azure](#azure)
         - [IP rotation](#ip-rotation)
       - [2FA/MFA implementation issues](#2famfa-implementation-issues)
-        - [SSL/TLS](#ssltls)
+      - [SSL/TLS implementation](#ssltls-implementation)
   - [Resources](#resources)
-        - [FOREGENIX : Know your attack surfaces](#foregenix--know-your-attack-surfaces)
-        - [Offensive OSINT](#offensive-osint)
-        - [OSINT Resources](#osint-resources)
-        - [Pentest Check-List](#pentest-check-list)
-        - [Haax cheatsheet](#haax-cheatsheet)
+      - [FOREGENIX : Know your attack surfaces](#foregenix--know-your-attack-surfaces)
+      - [Offensive OSINT](#offensive-osint)
+      - [OSINT Resources](#osint-resources)
+      - [Pentest Check-List](#pentest-check-list)
+      - [Haax cheatsheet](#haax-cheatsheet)
 
 
 ## OSINT
@@ -273,7 +273,7 @@ for i in $(cat onesixtyone/dict.txt); do echo -n "$i : "; snmpget -v 3 -u $i udp
 RCE-as-a-feature (Jenkins, Serv-U, etc).  
 - https://github.com/p0dalirius/Awesome-RCE-techniques
 
-##### Exposed source code or credentials
+#### Exposed source code or credentials
 - .git folder  
 - Access key, token, secret on github, gitlab, mercurial, code repo solutions...
 Git / Repo secret parsers  
@@ -284,15 +284,15 @@ Git / Repo secret parsers
 - shhgit (https://github.com/eth0izzle/shhgit)
 - gitrob (https://github.com/michenriksen/gitrob)
 
-##### SAP
+#### SAP
 - https://book.hacktricks.xyz/network-services-pentesting/pentesting-sap
   
-##### Lync
+#### Lync
 - https://www.mdsec.co.uk/2017/04/penetration-testing-skype-for-business-exploiting-the-missing-lync/
 - https://www.trustedsec.com/blog/attacking-self-hosted-skype-businessmicrosoft-lync-installations/
 - https://github.com/mdsecresearch/LyncSniper
 
-##### IIS specific checks
+#### IIS specific checks
 ASPNET_CLIENT Folder enumeration  
 - http://itdrafts.blogspot.com/2013/02/aspnetclient-folder-enumeration-and.html
 
@@ -308,18 +308,18 @@ IIS tilde character “~” Vulnerability/Feature
 java -jar iis_shortname_scanner.jar 2 20 https://iiswebserver.com
 ```
 
-##### Web vulnerabilities
+#### Web vulnerabilities
 - serialization/deserialization  
 
-##### Default Credentials in use
+#### Default Credentials in use
 - https://diarium.usal.es/pmgallardo/2020/10/31/list-of-default-credentials-websites/
 - https://cirt.net/passwords
 - https://datarecovery.com/rd/default-passwords/
 
-##### Open SMTP Relay
+#### Open SMTP Relay
 - https://www.blackhillsinfosec.com/how-to-test-for-open-mail-relays/
 
-##### DNS Zone Transfer
+#### DNS Zone Transfer
 - https://github.com/mschwager/fierce.git
 ```
 fierce -dns domain.fr
@@ -335,7 +335,7 @@ dig @your-ip -t axfr <TARGETDOMAIN.COM>
 nmap --script dns-zone-transfer.nse --script-args "dns-zone-transfer.domain=<TARGETDOMAIN.COM>" -Pn -p 53 <TARGET_IP>
 ```
 
-##### VPN - IKE Aggressive Mode
+#### VPN - IKE Aggressive Mode
 
 ## Password spray
 (o365, Azure, Citrix, RDP, VPN, OWA, etc)
@@ -396,24 +396,24 @@ Re-using valid credentials on alternate services
 - https://infosecwriteups.com/all-about-multi-factor-authentication-security-bypass-f1a95f9b6362
 - https://medium.com/proferosec-osm/multi-factor-authentication-in-the-wild-bypass-methods-689f53f0b62b
 
-##### SSL/TLS
+#### SSL/TLS implementation
 - heartbleed
 - Shellshock
 
 ## Resources
 
-##### FOREGENIX : Know your attack surfaces
+#### FOREGENIX : Know your attack surfaces
 - https://www.foregenix.com/blog/know-your-attack-surfaces
 
-##### Offensive OSINT
+#### Offensive OSINT
 - https://www.offensiveosint.io/offensive-osint-introduction/
 
-##### OSINT Resources
+#### OSINT Resources
 - https://cheatsheet.haax.fr/resources/osint/
 - https://cheatsheet.haax.fr/open-source-intelligence-osint/
 
-##### Pentest Check-List
+#### Pentest Check-List
 - https://github.com/ibr0wse/RedTeam-PenTest-Cheatsheet-Checklist
 
-##### Haax cheatsheet
+#### Haax cheatsheet
 - https://cheatsheet.haax.fr/open-source-intelligence-osint/technical-recon/subdomain_discovery/
