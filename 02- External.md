@@ -71,6 +71,9 @@ https://github.com/smicallef/spiderfoot
 - Metabigor  
 https://github.com/j3ssie/metabigor
 
+- Very complete and Great OSINT Blog
+https://start.me/p/ZME8nR/osint
+
 ## Reconnaissance
 ### Passive External Network Reconnaissance
 ##### Dorks
