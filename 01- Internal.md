@@ -25,7 +25,7 @@
     - [Get Net session](#get-net-session)
     - [Active Directory user and computer account description](#active-directory-user-and-computer-account-description)
     - [Resetting expired passwords remotely](#resetting-expired-passwords-remotely)
-    - [PASSWD_NOT_REQD](#passwd_not_reqd)
+    - [PASSWD\_NOT\_REQD](#passwd_not_reqd)
     - [Machine Account Quota](#machine-account-quota)
     - [LAPS / LAPS bypass](#laps--laps-bypass)
     - [Admin Count](#admin-count)
@@ -42,10 +42,17 @@
     - [adPeas](#adpeas)
     - [Password spray](#password-spray)
     - [LNK Files](#lnk-files)
+    - [Potatoes Attacks](#potatoes-attacks)
+      - [Ghost potato](#ghost-potato)
+      - [Remote Potato](#remote-potato)
+      - [Juicy Potato](#juicy-potato)
+      - [Hot Potato](#hot-potato)
+      - [Sweet Potato](#sweet-potato)
     - [RPC Misc](#rpc-misc)
         - [AD user password modification using rpcclient](#ad-user-password-modification-using-rpcclient)
         - [RPC password spraying](#rpc-password-spraying)
     - [Kerberoasting](#kerberoasting)
+    - [Kerberos Bronze Bit](#kerberos-bronze-bit)
     - [Abusing Vulnerable GPO](#abusing-vulnerable-gpo)
     - [Abusing MS-SQL Service](#abusing-ms-sql-service)
     - [Relay attacks](#relay-attacks)
@@ -64,8 +71,8 @@
     - [SYSVOL / GPP](#sysvol--gpp)
         - [Metasploit Module](#metasploit-module)
         - [Metasploit Post-Module : Once you get shell on windows host](#metasploit-post-module--once-you-get-shell-on-windows-host)
-        - [CrackMapExec Module 1 : gpp_password](#crackmapexec-module-1--gpp_password)
-        - [CrackMapExec Module 2: gpp_autologin](#crackmapexec-module-2-gpp_autologin)
+        - [CrackMapExec Module 1 : gpp\_password](#crackmapexec-module-1--gpp_password)
+        - [CrackMapExec Module 2: gpp\_autologin](#crackmapexec-module-2-gpp_autologin)
         - [Impacket Module](#impacket-module)
         - [Decrypt the found password manually](#decrypt-the-found-password-manually)
     - [LLMNR / NBT-NS / mDNS](#llmnr--nbt-ns--mdns)
@@ -117,6 +124,7 @@
   - [Post-Exploitation](#post-exploitation)
     - [Computer accounts privesc](#computer-accounts-privesc)
     - [Active Directory NTDS : Clear Text passwords (Reversible encryption)](#active-directory-ntds--clear-text-passwords-reversible-encryption)
+    - [DCSYNC](#dcsync)
     - [Accessing LSASS secrets](#accessing-lsass-secrets)
         - [Lsassy](#lsassy)
     - [Bring Your Own Domain Controller](#bring-your-own-domain-controller)
@@ -140,6 +148,8 @@
       - [AS-Rep Roast response (Kerberos 5 AS-REP etype 23)](#as-rep-roast-response-kerberos-5-as-rep-etype-23)
       - [Kerberoast (Service Ticket)](#kerberoast-service-ticket)
   - [Reporting / Collaborative](#reporting--collaborative)
+    - [PlumHound](#plumhound)
+    - [Pwndoc](#pwndoc)
     - [Password audit reporting](#password-audit-reporting)
   - [Defenses](#defenses)
     - [Restricted Admin Mode](#restricted-admin-mode)
@@ -511,6 +521,25 @@ $lnk.HotKey = "Ctrl+Alt+O"
 $lnk.Save()
 ```
 
+### Potatoes Attacks
+#### Ghost potato
+https://shenaniganslabs.io/files/impacket-ghostpotato.zip
+
+#### Remote Potato
+https://github.com/antonioCoco/RemotePotato0/
+
+#### Juicy Potato
+https://medium.com/r3d-buck3t/impersonating-privileges-with-juicy-potato-e5896b20d505
+
+#### Hot Potato
+https://pentestlab.blog/2017/04/13/hot-potato/
+
+#### Sweet Potato
+https://www.pentestpartners.com/security-blog/sweetpotato-service-to-system/
+
+
+https://www.ctfnote.com/red-teaming/privilege-escalation/windows-privilege-escalation/token-impersonation-and-potato-attacks
+
 ### RPC Misc
 ##### AD user password modification using rpcclient  
 
@@ -547,6 +576,11 @@ hashcat -m 13100 --force -a 0 hashes.kerberoast passwords_kerb.txt
 
 --> To protect against this attack, we must avoid having *SPN* on user accounts, in favor of machine accounts.  
 --> If it is necessary, we should use Microsoft’s Managed Service Accounts (MSA) feature, ensuring that the account password is robust and changed regularly and automatically
+
+### Kerberos Bronze Bit
+https://www.netspi.com/blog/technical/network-penetration-testing/cve-2020-17049-kerberos-bronze-bit-overview/
+https://www.netspi.com/blog/technical/network-penetration-testing/cve-2020-17049-kerberos-bronze-bit-theory/
+https://www.netspi.com/blog/technical/network-penetration-testing/cve-2020-17049-kerberos-bronze-bit-attack/
 
 ### Abusing Vulnerable GPO
 ```
@@ -1443,6 +1477,8 @@ dpat.py -n ntds.dit -c hashcat.potfile -g "Domain Admins.txt" "Enterprise Admins
 
 #### Active Directory Exploitation cheatsheet
 - https://github.com/S1ckB0y1337/Active-Directory-Exploitation-Cheat-Sheet
+- https://hideandsec.sh/books/cheatsheets-82c/page/active-directory-python-edition
+- 
 
 #### Attacking Active Directory
 - https://www.youtube.com/watch?v=MIt-tIjMr08
@@ -1549,3 +1585,4 @@ https://github.com/ly4k/Certipy
 
 
 LAPS, JEA, WSL, RBCD, WDAC, ASR, AWL, Credential Guard, CLM, virtualization 
+
