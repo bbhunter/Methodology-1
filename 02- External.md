@@ -168,6 +168,15 @@ Subdomain discovery tool that discovers valid subdomains for websites by using p
 ```
 subfinder -d targetdomain.com -o output.txt
 ```
+**[DNS Scan](https://github.com/rbsec/dnscan)**  
+```
+python3 dnscan.py -d aecon.com -w subdomains.txt
+```
+
+**[aiodnsbrute](https://github.com/blark/aiodnsbrute)**
+```
+aiodnsbrute -t 20 company.com -o csv -f subdomains -w ./subdomains-top1million-110000.txt
+```
 
 ##### HTTP/HTTPS Screenshots
 - [Aquatone](https://github.com/michenriksen/aquatone)
@@ -177,6 +186,7 @@ subfinder -d targetdomain.com -o output.txt
 
 ##### Linkedin users search
 - https://github.com/initstring/linkedin2username.git
+- https://github.com/vysecurity/LinkedInt.git
 
 ##### Subdomain takeover
 - https://www.hackerone.com/blog/Guide-Subdomain-Takeovers
@@ -247,6 +257,10 @@ Against web app portal
 ##### DKIM / DMARC / SPF misconfiguration
 - https://github.com/BishopFox/spoofcheck.git
 - https://github.com/Mr-Un1k0d3r/SPFAbuse
+- https://github.com/MattKeeley/Spoofy
+```
+python3 spoofy.py -d company.com -o stdout
+```
 
 ##### SNMP
 - snmpget
