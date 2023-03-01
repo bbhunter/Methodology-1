@@ -309,6 +309,7 @@ Git / Repo secret parsers
 - https://www.mdsec.co.uk/2017/04/penetration-testing-skype-for-business-exploiting-the-missing-lync/
 - https://www.trustedsec.com/blog/attacking-self-hosted-skype-businessmicrosoft-lync-installations/
 - https://github.com/mdsecresearch/LyncSniper
+- https://github.com/nyxgeek/lyncsmash
 
 #### IIS specific checks
 ASPNET_CLIENT Folder enumeration  
