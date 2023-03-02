@@ -14,6 +14,7 @@
     - [Active External Network Reconnaissance](#active-external-network-reconnaissance)
         - [Subdomain enumeration](#subdomain-enumeration)
         - [HTTP/HTTPS Screenshots](#httphttps-screenshots)
+        - [Web App Pentest Checklists](#web-app-pentest-checklists)
         - [Linkedin users search](#linkedin-users-search)
         - [Subdomain takeover](#subdomain-takeover)
         - [Bypassing CloudFlare](#bypassing-cloudflare)
@@ -183,6 +184,12 @@ aiodnsbrute -t 20 company.com -o csv -f subdomains -w ./subdomains-top1million-1
 - [Eyewitness](https://github.com/FortyNorthSecurity/EyeWitness)
 - [WitnessMe](https://github.com/byt3bl33d3r/WitnessMe)
 - [GoWitness](https://github.com/sensepost/gowitness)
+
+
+##### Web App Pentest Checklists
+- https://pentestbook.six2dez.com/others/web-checklist
+- https://alike-lantern-72d.notion.site/Web-Application-Penetration-Testing-Checklist-4792d95add7d4ffd85dd50a5f50659c6
+- https://github.com/swisskyrepo/PayloadsAllTheThings
 
 ##### Linkedin users search
 - https://github.com/initstring/linkedin2username.git

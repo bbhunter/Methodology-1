@@ -12,6 +12,7 @@
       - [802.1x EAP-PEAP](#8021x-eap-peap)
       - [Misc techniques](#misc-techniques)
     - [Username == password](#username--password)
+    - [SMB enumeration](#smb-enumeration)
     - [SMB Version 1](#smb-version-1)
     - [SMB Signing](#smb-signing)
     - [Unsupported operating systems](#unsupported-operating-systems)
@@ -78,7 +79,6 @@
     - [LLMNR / NBT-NS / mDNS](#llmnr--nbt-ns--mdns)
       - [Responder + ntlmrelayx](#responder--ntlmrelayx)
     - [WPAD](#wpad)
-    - [WSUS](#wsus)
     - [ACL / DACL Exploitation](#acl--dacl-exploitation)
         - [ForceChangePassword](#forcechangepassword)
     - [MachineAccountQuota (MAQ)](#machineaccountquota-maq)
@@ -94,15 +94,20 @@
       - [MultiCoerce](#multicoerce)
     - [Petitpotam](#petitpotam)
     - [samAccountName spoofing](#samaccountname-spoofing)
-    - [MiTM - IPv6 + NTLMRelayx](#mitm---ipv6--ntlmrelayx)
+    - [MiTM - IPv6 + Relay](#mitm---ipv6--relay)
+    - [Responder + Relay](#responder--relay)
+    - [WSUS Exploitation](#wsus-exploitation)
+      - [WSUS details](#wsus-details)
+    - [LDAP Pass Back](#ldap-pass-back)
+    - [SMTP Pass Back](#smtp-pass-back)
   - [Kerberos attacks](#kerberos-attacks)
     - [AS-Rep Roasting](#as-rep-roasting-1)
     - [Kerberoasting](#kerberoasting-1)
+    - [Timeroasting / TrustRoasting / Computer Spraying](#timeroasting--trustroasting--computer-spraying)
     - [MS14-066](#ms14-066)
   - [Active Directory exploitation](#active-directory-exploitation)
     - [ZeroLogon](#zerologon-1)
     - [Exploiting ADCS](#exploiting-adcs)
-    - [ADCS](#adcs)
     - [ADCS WebDav + NTLM relay to LDAP](#adcs-webdav--ntlm-relay-to-ldap)
     - [Exploiting machine accounts (WS01$)](#exploiting-machine-accounts-ws01)
     - [Over-Pass-The-hash](#over-pass-the-hash)
@@ -115,6 +120,16 @@
     - [Domain Trust](#domain-trust)
     - [Forest Trust](#forest-trust)
   - [Lateral movement](#lateral-movement)
+  - [wmiexec](#wmiexec)
+      - [Detection](#detection)
+  - [smbexec](#smbexec)
+      - [Detection](#detection-1)
+  - [psexec](#psexec)
+      - [Detection](#detection-2)
+  - [atexec](#atexec)
+      - [Detection](#detection-3)
+  - [comexec](#comexec)
+      - [Detection](#detection-4)
   - [Persistence](#persistence)
     - [Primary Group ID](#primary-group-id)
     - [Dropping SPN on admin accounts](#dropping-spn-on-admin-accounts)
@@ -250,6 +265,10 @@ Using crackmapexec to test for password equal to username on domain contoso.com
 ```
 for word in $(cat users.txt); do crackmapexec smb 10.10.0.10 -u $word -p $word -d contoso.com; done
 ```
+
+### SMB enumeration
+- smbclient
+- smbmap
 
 ### SMB Version 1
 ```
@@ -763,8 +782,6 @@ Serve-Html = On
 
 --> Patch by Microsoft (MS16-077): Location of WPAD file is no longer requested via broadcast protocols bnut only via DNS.
 
-### WSUS
-
 ### ACL / DACL Exploitation
 - https://book.hacktricks.xyz/windows-hardening/active-directory-methodology/acl-persistence-abuse
 - https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-active-directory-acls-aces#forcechangepassword
@@ -877,21 +894,71 @@ crackmapexec smb 10.10.0.10 -u jdoe -p Pass1234 -d company.com -M petitpotam
 ```
 ### samAccountName spoofing
 
-### MiTM - IPv6 + NTLMRelayx
+### MiTM - IPv6 + Relay
 - Windows prefers IPv6 by default.
 - DHCPv6 is constantly broadcasting to the entire network.
 
 - https://blog.fox-it.com/2018/01/11/mitm6-compromising-ipv4-networks-via-ipv6/
+
+SMB Relay
+
+LDAP Relay
+
+Tools: ntlmrelayx, multirelay
+
+### Responder + Relay
+SMB Relay
+
+LDAP Relay
+
+### WSUS Exploitation
+- [WSUSpect Black Hat Talk](https://www.blackhat.com/docs/us-15/materials/us-15-Stone-WSUSpect-Compromising-Windows-Enterprise-Via-Windows-Update.pdf)
+- [WSUSPect tool](https://github.com/ctxis/wsuspect-proxy)
+- [PyWSUS](https://www.gosecure.net/blog/2020/09/03/wsus-attacks-part-1-introducing-pywsus/)
+  
+Windows Update is a Windows service, **wuauclt.exe** which run periodically to check for updates.  
+Registry keys exist that govern various details such:
+- Update server's location
+- Update frequency
+- Privileged Escalation of unprivileged users
+
+--> Communication: Client --> Windows Update Server : HTTP(S) / SOAP XML web service.  
+
+#### WSUS details
+WSUS or Windows Software Update Services is the enterprise variant of Windows update.  
+- Updates fetched from local server instead of Microsoft Server
+- Updates must be approved by administrator before being pushed out
+
+**wsus soap service**
+<img src="./images/wsus_soap_service.png" width="500"/>
+
+
+### LDAP Pass Back
+LDAP pass back attack target LDAP credentials used by the MFP within its network configuration (check for default credentials on printers).  
+
+The attacker tricks a device to connect to a rogue server to disclose the stored network credentials or hashes while the device trying to authenticate to the server.
+
+2 methods:
+1. nc listener
+2. Rogue LDAP server
+
+Sometimes the domain account used within theses printers are service accounts with interesting privileges and I also found domain admins account credentials being used. In any case if a domain account is used it can give you a first foothold within the domain from an unauthenticated perspective.  
+
+### SMTP Pass Back
+- https://github.com/RobinMeis/MITMsmtp
+--> Similar to LDAP Pass back with SMTP protocol this time.
 
 ## Kerberos attacks
 ### AS-Rep Roasting
 
 ### Kerberoasting
 
+### Timeroasting / TrustRoasting / Computer Spraying
+- https://www.secura.com/uploads/whitepapers/Secura-WP-Timeroasting-v3.pdf
+- https://github.com/SecuraBV/Timeroast
+
+
 ### MS14-066
-
-
-
 
 
 
@@ -910,9 +977,6 @@ certutil.exe -config - -ping
 - https://ppn.snovvcrash.rocks/pentest/infrastructure/ad/ad-cs-abuse
 - https://github.com/PKISolutions/PSPKI
 - https://www.exandroid.dev/2021/06/23/ad-cs-relay-attack-practical-guide/
-
-### ADCS
-
 
 ### ADCS WebDav + NTLM relay to LDAP
 - https://twitter.com/tifkin_/status/1418855927575302144/photo/1
@@ -1019,7 +1083,28 @@ smbclient //192.168.0.10/C$ -U corp.company.com/jdoe --pw-nt-hash <NT hash>
 ```
 
 
+## wmiexec
 
+#### Detection
+
+## smbexec
+
+#### Detection
+
+
+## psexec
+
+#### Detection
+
+
+## atexec
+
+#### Detection
+
+
+## comexec
+
+#### Detection
 
 
 
@@ -1332,6 +1417,8 @@ Data exfiltration and DLP (Data Loss Prevention) bypass.
 
 
 ## Cracking Hashes
+- https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Hash%20Cracking.md
+  
 #### LM hash
 ```
 hashcat -m 3000 -a 0 lm_hashes.txt ../../wordlists/rockyou_2021.txt
@@ -1534,10 +1621,9 @@ Tools:
 - https://research.nccgroup.com/2019/08/20/kerberos-resource-based-constrained-delegation-when-an-image-change-leads-to-a-privilege-escalation/
 - Delegation
 - Printnightmare
-- Proxylogon,proxyshell
+- Proxylogon,proxyshell,notproxyshell
 https://www.praetorian.com/blog/reproducing-proxylogon-exploit/
 - Trust, forest
-
 - checker for internal OWA, Exchange vuln
 - Exchange vuln privexchange.py
 - PAC
@@ -1558,25 +1644,19 @@ https://www.ravenswoodtechnology.com/protect-your-windows-network-from-the-petit
 https://ppn.snovvcrash.rocks/pentest/infrastructure/ad/ad-cs-abuse#domain-escalation-via-certificates
 https://github.com/ly4k/Certipy
 - adsecurity all
-- anonymous RPC/SMB
 - Wdigest
 - windows authentication cache (HKLM\SOFTWARE\Microsoft\WindowsNT\CurrentVersion\Winlogon\CachedLogonsCount)
 - LSASS
 - DPAPI
 - xfreerdp tool
 - Service accounts with interactive logon
-- WSUS exploitation
 - Permissive Active Directory Domain Services https://blog.netspi.com/exploiting-adidns/
 - DHCP spoofing
 - ARP spoofing
-- lateral movement (wmiexec, smbexec, psexec, atexec, comexec) and what do they do on te targeted system side
-- smb enumeration (smbmap, smbclient)
-- MITM6
 - Pypykatz
 - Spraykatz
 - VLAN hopping
 - SNMP default
-- Pass Back Attack
 - Potato family : https://hideandsec.sh/books/windows-sNL/page/in-the-potato-family-i-want-them-all
 - SMTP
 - ACL/DACL exploitation
