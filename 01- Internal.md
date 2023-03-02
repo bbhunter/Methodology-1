@@ -929,7 +929,7 @@ WSUS or Windows Software Update Services is the enterprise variant of Windows up
 - Updates fetched from local server instead of Microsoft Server
 - Updates must be approved by administrator before being pushed out
 
-**wsus soap service**
+**wsus soap service**  
 <img src="./images/wsus_soap_service.png" width="500"/>
 
 
