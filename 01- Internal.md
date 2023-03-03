@@ -25,6 +25,7 @@
     - [Getting password policy](#getting-password-policy)
     - [MISC Enumeration commands](#misc-enumeration-commands)
     - [Get Net session](#get-net-session)
+    - [Review SMB Share rights](#review-smb-share-rights)
     - [Active Directory user and computer account description](#active-directory-user-and-computer-account-description)
     - [Resetting expired passwords remotely](#resetting-expired-passwords-remotely)
     - [PASSWD\_NOT\_REQD](#passwd_not_reqd)
@@ -81,6 +82,8 @@
       - [Responder + ntlmrelayx](#responder--ntlmrelayx)
     - [WPAD](#wpad)
     - [ACL / DACL Exploitation](#acl--dacl-exploitation)
+        - [BloodyAD - AutoBloody](#bloodyad---autobloody)
+        - [DACL Edit python script](#dacl-edit-python-script)
         - [ForceChangePassword](#forcechangepassword)
     - [MachineAccountQuota (MAQ)](#machineaccountquota-maq)
     - [Protected Users](#protected-users)
@@ -373,6 +376,13 @@ dsquery group -name "Domain Admins" | dsget group -expand -members
 ### Get Net session
 ```
 Get-NetComputer | Get-NetSession
+```
+
+### Review SMB Share rights
+- https://github.com/NetSPI/PowerHuntShares
+
+```
+Invoke-HuntSMBShares -Threads 100 -OutputDirectory c:\temp\test -Credentials domain\user
 ```
 
 ### Active Directory user and computer account description
@@ -798,7 +808,16 @@ Serve-Html = On
 ### ACL / DACL Exploitation
 - https://book.hacktricks.xyz/windows-hardening/active-directory-methodology/acl-persistence-abuse
 - https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-active-directory-acls-aces#forcechangepassword
+- https://github.com/ShutdownRepo/The-Hacker-Recipes/tree/master/ad/movement/dacl
 
+##### BloodyAD - AutoBloody
+- https://github.com/CravateRouge/bloodyAD
+- https://github.com/CravateRouge/autobloody
+  
+
+##### DACL Edit python script
+- https://github.com/fortra/impacket/pull/1291/files#diff-9648ed41f85733cdf640836e6166cb9dfd8f6c2e967491da2b516bbd2aac9989
+  
 #####  ForceChangePassword
 - https://docs.microsoft.com/en-us/windows/win32/adschema/r-user-force-change-password
 If we have *ExtendedRight* on *User-Force-Change-Password* object type, we can reset the user's password without knowing their current password.  
