@@ -810,6 +810,8 @@ Serve-Html = On
 - https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-active-directory-acls-aces#forcechangepassword
 - https://github.com/ShutdownRepo/The-Hacker-Recipes/tree/master/ad/movement/dacl
 
+<img src="./images/DACLabuse-dark.png" width="800"/>
+
 ##### BloodyAD - AutoBloody
 - https://github.com/CravateRouge/bloodyAD
 - https://github.com/CravateRouge/autobloody
